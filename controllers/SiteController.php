@@ -61,10 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $num = rand(1, 2260);
-        $curl = curl_init("https://xkcd.com/{$num}/info.0.json");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $resp = json_decode(curl_exec($curl), 1);
+        $resp = Yii::$app->picker->pick();
         $img =  $resp['img'];
         $title = $resp['safe_title']??'Pick Your Image';
 
