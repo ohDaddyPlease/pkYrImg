@@ -15,4 +15,6 @@ $this->registerCss("
 ?>
 
 <h1><?= Html::encode($title);?></h1>
-<img src=<?= Html::encode($img); ?>>
+<?= Html::img(Html::encode($img), ['alt' => Html::encode($title)]); ?>
+<?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button']); ?>
+<?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button']); ?>
