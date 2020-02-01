@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'defaultRoute' => 'dashboard',
     'id' => 'basic',
     'name' => 'pk yr img  ;)',
     'basePath' => dirname(__DIR__),
