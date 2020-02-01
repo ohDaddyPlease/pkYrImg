@@ -13,6 +13,7 @@ use yii\bootstrap\Modal;
 use app\models\forms\LoginForm;
 use yii\widgets\ActiveForm;
 use app\models\forms\RegisterForm;
+use app\models\db\Users;
 
 
 AppAsset::register($this);
@@ -31,6 +32,8 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody();
 
+$request = Yii::$app->request->post();
+
 //Вход
   $loginFormModel = new LoginForm;
   Modal::begin([
@@ -43,7 +46,9 @@ AppAsset::register($this);
     echo Html::submitButton('Войти');
     ActiveForm::end();
   Modal::end();
-  if($loginFormModel->load(Yii::$app->request->post()) && $loginFormModel->validate()){}
+
+  if(key_exists('LoginForm', $request))
+    if($loginFormModel->load($request) && $loginFormModel->validate()){die('login');}
 
   //Регистрация
   $registerFormModel = new RegisterForm;
@@ -57,6 +62,8 @@ AppAsset::register($this);
     echo Html::submitButton('Зарегистрироваться');
     ActiveForm::end();
   Modal::end();
+  if(key_exists('RegisterForm', $request))
+    if($registerFormModel->load($request) && $registerFormModel->validate()){die('register');}
 
 ?>
 
