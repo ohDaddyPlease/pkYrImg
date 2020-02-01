@@ -9,6 +9,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\bootstrap\Modal;
+use app\models\forms\LoginForm;
+use yii\widgets\ActiveForm;
+use app\models\forms\RegisterForm;
+
 
 AppAsset::register($this);
 ?>
@@ -24,7 +29,36 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
+<?php $this->beginBody();
+
+//Вход
+  $loginFormModel = new LoginForm;
+  Modal::begin([
+    'header' => 'Вход в учётную запись',
+    'options' => ['id' => 'login'],
+  ]);
+    $loginForm = ActiveForm::begin();
+    echo $loginForm->field($loginFormModel, 'login')->label('Имя пользователя (логин)');
+    echo $loginForm->field($loginFormModel, 'password')->input('password')->label('Пароль');
+    echo Html::submitButton('Войти');
+    ActiveForm::end();
+  Modal::end();
+  if($loginFormModel->load(Yii::$app->request->post()) && $loginFormModel->validate()){}
+
+  //Регистрация
+  $registerFormModel = new RegisterForm;
+  Modal::begin([
+    'header' => 'Регистрация учётной записи',
+    'options' => ['id' => 'register'],
+  ]);
+    $registerForm = ActiveForm::begin();
+    echo $registerForm->field($registerFormModel, 'login')->label('Имя пользователя (логин)');
+    echo $registerForm->field($registerFormModel, 'password')->input('password')->label('Пароль');
+    echo Html::submitButton('Зарегистрироваться');
+    ActiveForm::end();
+  Modal::end();
+
+?>
 
 <div class="wrap">
     <?php
@@ -38,21 +72,14 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+            ['label' => 'Войти', 'url' => '#login', 'linkOptions' => ['data-toggle'=>'modal']],
+            ['label' => 'Зарегистрироваться', 'url' => '#register', 'linkOptions' => ['data-toggle'=>'modal']]
+
+
         ],
     ]);
     NavBar::end();
+    
     ?>
 
     <div class="container">
