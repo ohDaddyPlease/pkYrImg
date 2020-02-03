@@ -13,8 +13,6 @@ use yii\bootstrap\Modal;
 use app\models\forms\LoginForm;
 use yii\widgets\ActiveForm;
 use app\models\forms\RegisterForm;
-use app\models\db\Users;
-
 
 AppAsset::register($this);
 ?>
@@ -41,14 +39,12 @@ $request = Yii::$app->request->post();
     'options' => ['id' => 'login'],
   ]);
     $loginForm = ActiveForm::begin();
+    $loginForm->action = '?r=authorization/login';
     echo $loginForm->field($loginFormModel, 'login')->label('Имя пользователя (логин)');
     echo $loginForm->field($loginFormModel, 'password')->input('password')->label('Пароль');
     echo Html::submitButton('Войти');
     ActiveForm::end();
   Modal::end();
-
-  if(key_exists('LoginForm', $request))
-    if($loginFormModel->load($request) && $loginFormModel->validate()){die('login');}
 
   //Регистрация
   $registerFormModel = new RegisterForm;
@@ -57,13 +53,13 @@ $request = Yii::$app->request->post();
     'options' => ['id' => 'register'],
   ]);
     $registerForm = ActiveForm::begin();
+    $registerForm->action = '?r=authorization/registration';
     echo $registerForm->field($registerFormModel, 'login')->label('Имя пользователя (логин)');
     echo $registerForm->field($registerFormModel, 'password')->input('password')->label('Пароль');
     echo Html::submitButton('Зарегистрироваться');
     ActiveForm::end();
   Modal::end();
-  if(key_exists('RegisterForm', $request))
-    if($registerFormModel->load($request) && $registerFormModel->validate()){die('register');}
+
 
 ?>
 
