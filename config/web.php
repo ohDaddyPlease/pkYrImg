@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'defaultRoute' => 'dashboard',
     'id' => 'basic',
-    'name' => 'pk yr img  ;)',
+    'name' => 'pk yr img  ;)', //изменил имя приложения
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -14,7 +14,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'picker' => [
+        'picker' => [ //добавил компонент
             'class' => 'app\components\Picker'
         ],
         'request' => [
@@ -25,7 +25,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\db\User', //изменил путь
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
