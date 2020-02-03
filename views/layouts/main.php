@@ -72,15 +72,26 @@ $request = Yii::$app->request->post();
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    if(Yii::$app->user->isGuest)
+      echo Nav::widget([
+          'options' => ['class' => 'navbar-nav navbar-right'],
+          'items' => [
+              ['label' => 'Вход', 'url' => '#login', 'linkOptions' => ['data-toggle'=>'modal']],
+              ['label' => 'Зарегистрироваться', 'url' => '#register', 'linkOptions' => ['data-toggle'=>'modal']]
+
+
+          ],
+      ]);
+    else 
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Войти', 'url' => '#login', 'linkOptions' => ['data-toggle'=>'modal']],
-            ['label' => 'Зарегистрироваться', 'url' => '#register', 'linkOptions' => ['data-toggle'=>'modal']]
+      'options' => ['class' => 'navbar-nav navbar-right'],
+      'items' => [
+          ['label' => Yii::$app->user->identity->login, 'url' => '#'],
+          ['label' => 'Выйти', 'url' => '?r=authorization/logout']
 
 
-        ],
-    ]);
+      ],
+  ]);
     NavBar::end();
     
     ?>
