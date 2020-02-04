@@ -86,7 +86,7 @@ $request = Yii::$app->request->post();
     echo Nav::widget([
       'options' => ['class' => 'navbar-nav navbar-right'],
       'items' => [
-          ['label' => Yii::$app->user->identity->login, 'url' => '#'],
+          ['label' => Yii::$app->user->identity->login, 'url' => '?r=profile'],
           ['label' => 'Выйти', 'url' => '?r=authorization/logout']
 
 
