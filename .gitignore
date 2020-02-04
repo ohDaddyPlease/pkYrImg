@@ -33,4 +33,4 @@ tests/_support/_generated
 /.vagrant
 
 #vs code workspace
-ws.code-workspace
+*.code-workspace
