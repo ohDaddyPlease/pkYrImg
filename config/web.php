@@ -4,7 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'defaultRoute' => 'dashboard',
+    'defaultRoute' => 'dashboard/index',
     'id' => 'basic',
     'name' => 'pk yr img  ;)', //изменил имя приложения
     'basePath' => dirname(__DIR__),
@@ -19,7 +19,7 @@ $config = [
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'o2_vkEFFnEy69Aahx0KVSm78m124Gm7q',
+            'cookieValidationKey' => 'o2_vkEFFnEy69Aahx0KVSm78m124Gm7q'
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -48,14 +48,18 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
+                
+                '' => 'dashboard/index',
+                'profile' => 'profile/index'
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];
