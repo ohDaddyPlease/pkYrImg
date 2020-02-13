@@ -21,15 +21,17 @@ $this->registerJs(
   "
   let params = window.location.search.split('?&')
   if(params[(params.length) - 1] == 'login=failed')
+  {
     $('#login').modal('show');
     $($('#login-form .help-block')[0]).text('Возможно, неправильный пароль!');
     $($('#login-form .help-block')[1]).text('Возможно, неправильный логин!');
 
-   if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
-   {
-    $($('#login-form .help-block')[0]).parent().addClass('has-error');
-    $($('#login-form .help-block')[1]).parent().addClass('has-error');
-   }
+    if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
+    {
+      $($('#login-form .help-block')[0]).parent().addClass('has-error');
+      $($('#login-form .help-block')[1]).parent().addClass('has-error');
+    }
+  }
     ",
   View::POS_LOAD,
   'loggin-script'
