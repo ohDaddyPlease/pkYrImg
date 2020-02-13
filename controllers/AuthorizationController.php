@@ -14,10 +14,13 @@ class AuthorizationController extends Controller
       $request = Yii::$app->request->post('LoginForm');
       $identity = User::findOne(['login' => $request['login']]);
       if($identity  && Yii::$app->security->validatePassword($request['password'], $identity->password))
+      {
         Yii::$app->user->login($identity);
-        
-        return $this->redirect(Yii::$app->request->referrer);
-  }
+        return $this->redirect(Yii::$app->request->referrer . '?&login=success');
+      }
+      else  
+      return $this->redirect(Yii::$app->request->referrer . '?&login=failed');
+    }
 
   public function actionRegistration()
   {
