@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\{Html, Url};
+use yii\helpers\Html;
 $this->title = $title;
 
 $this->registerCss("
@@ -15,7 +15,6 @@ $this->registerCss("
 ?>
 
 <div>
-<?= Url::to(['dashboard/index', 'id' => 100]); ?>
   <h1><?= Html::encode($title);?></h1>
   <?= Html::img(Html::encode($img), ['alt' => Html::encode($title)]); ?>
   <div style="display: block; margin-left: auto; margin-right: auto; max-width: 260px; padding-top: 15px;">
