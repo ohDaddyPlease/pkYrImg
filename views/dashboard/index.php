@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\View;
+
 $this->title = $title;
 
 $this->registerCss("
@@ -12,6 +14,26 @@ $this->registerCss("
         margin-right: auto;
       }
 ");
+
+$this->registerJs(
+  "
+  $('#like_button').click(function(){
+    $.ajax({
+        url: '?r=dashboard/test',
+        type: 'POST',
+        data: {
+          num: $num,
+          action: 1
+        },
+        error: function(jqXHR, errMsg) {
+            alert(errMsg);
+        }
+     });
+  });
+  ",
+  View::POS_READY
+);
+
 ?>
 
 <div>
