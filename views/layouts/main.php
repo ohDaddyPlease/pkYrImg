@@ -13,8 +13,28 @@ use yii\bootstrap\Modal;
 use app\models\forms\LoginForm;
 use yii\widgets\ActiveForm;
 use app\models\forms\RegisterForm;
+use yii\web\View;
 
 AppAsset::register($this);
+
+$this->registerJs(
+  "
+  let params = window.location.search.split('?&')
+  if(params[(params.length) - 1] == 'login=failed')
+    $('#login').modal('show');
+    $($('#login-form .help-block')[0]).text('Возможно, неправильный пароль!');
+    $($('#login-form .help-block')[1]).text('Возможно, неправильный логин!');
+
+   if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
+   {
+    $($('#login-form .help-block')[0]).parent().addClass('has-error');
+    $($('#login-form .help-block')[1]).parent().addClass('has-error');
+   }
+    ",
+  View::POS_LOAD,
+  'loggin-script'
+);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -30,16 +50,22 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody();
 
-$request = Yii::$app->request->post();
+$postRequest = Yii::$app->request->post();
 
 //Вход
   $loginFormModel = new LoginForm;
+  if(Yii::$app->request->get('login') == 'failed') {
+    $loginFormModel->validate('loginFailed');
+  }
+
   Modal::begin([
     'header' => 'Вход в учётную запись',
     'options' => ['id' => 'login'],
   ]);
-    $loginForm = ActiveForm::begin();
-    $loginForm->action = '?r=authorization/login';
+    $loginForm = ActiveForm::begin([
+      'action' => '?r=authorization/login',
+      'id' => 'login-form'
+    ]);
     echo $loginForm->field($loginFormModel, 'login')->label('Имя пользователя (логин)');
     echo $loginForm->field($loginFormModel, 'password')->input('password')->label('Пароль');
     echo Html::submitButton('Войти');
