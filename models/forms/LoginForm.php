@@ -13,17 +13,12 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            [['login', 'password'], 'required'],
-            ['password', 'loginValidation']
+            [['login', 'password'], 'required', 'message' => 'Это обязательное поле!'],
+            [['login', 'password',], 'loginFailed']
         ];
     }
 
-    public function loginValidation($attribute, $params)
+    public function loginFailed()
     {
-        die();
-        // $this->validate();
-        // $hash = User::find()->where('login = ' . $this->login);
-        // if(Yii::$app->security->validatePassword($this->password, $hash->password));
-        // else $this->addError($attribute, 'no!');
     }
 }
