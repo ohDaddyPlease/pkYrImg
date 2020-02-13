@@ -49,16 +49,16 @@ $config = [
         ],
         'db' => $db,
 
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'enableStrictParsing' => false,
-            'rules' => [
+        // 'urlManager' => [
+        //     'enablePrettyUrl' => true,
+        //     'showScriptName' => false,
+        //     'enableStrictParsing' => false,
+        //     'rules' => [
                 
-                '' => 'dashboard/index',
-                'profile' => 'profile/index'
-            ],
-        ],
+        //         '' => 'dashboard/index',
+        //         'profile' => 'profile/index'
+        //     ],
+        // ],
         
     ],
     'params' => $params,
