@@ -3,7 +3,7 @@
  use app\models\db\Like;
 $user_id = Yii::$app->user->identity->id;
 $likes =   Like::find()
-                 ->where("user_id = $user_id")
+                 ->where("user_id = $user_id AND action = 1")
                  ->all();
 
 $posts = '';
