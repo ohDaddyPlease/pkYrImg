@@ -18,6 +18,7 @@ class DashboardController extends Controller
 
     public function actionTest()
     {
+        if(!Yii::$app->user->identity) return;
         $like = new Like;
         $like->user_id = Yii::$app->user->identity->id;
         $like->post_id = $_POST['num'];
