@@ -24,6 +24,9 @@ $user_identity ?
           num: $num,
           action: data.target.dataset.action
         },
+        success: function() {
+          location.reload();
+        },
         error: function(jqXHR, errMsg) {
             alert(errMsg);
         }
