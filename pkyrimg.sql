@@ -1,8 +1,8 @@
--- MySQL dump 10.17  Distrib 10.3.18-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.17  Distrib 10.3.22-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: pkyrimg
 -- ------------------------------------------------------
--- Server version	10.3.18-MariaDB-0+deb10u1
+-- Server version	10.3.22-MariaDB-0+deb10u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -48,6 +48,32 @@ LOCK TABLES `assessment` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `like`
+--
+
+DROP TABLE IF EXISTS `like`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `like` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `post_id` int(11) DEFAULT NULL,
+  `action` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `like`
+--
+
+LOCK TABLES `like` WRITE;
+/*!40000 ALTER TABLE `like` DISABLE KEYS */;
+INSERT INTO `like` VALUES (1,123,321,NULL),(2,1,111,NULL),(3,1,222,NULL),(4,1,333,NULL),(5,16,111,NULL),(6,16,222,NULL),(7,16,333,NULL),(8,16,444,NULL),(9,16,98,NULL),(10,16,98,NULL),(11,16,98,NULL),(12,16,98,NULL),(13,16,98,NULL),(14,16,98,NULL),(15,16,98,NULL),(16,16,98,NULL),(17,16,98,NULL),(18,16,98,NULL),(19,16,98,NULL),(20,16,98,NULL),(21,16,98,NULL),(22,16,98,NULL),(23,16,98,NULL),(24,16,369,0),(25,16,1861,1),(26,16,22,1),(27,16,1603,0),(28,16,1603,0),(29,16,1603,1),(30,16,1603,1);
+/*!40000 ALTER TABLE `like` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -61,7 +87,7 @@ CREATE TABLE `user` (
   `role` varchar(255) NOT NULL DEFAULT 'user',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +96,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'123','$2y$13$0OW8A85O8Op6spE/RgaEaeuyPrHlNXaAYAaeouST0iKkCgV8FE3Xq','user'),(8,'tester','$2y$13$SVBUCLRvGLxKmSc2AZo/aerGKDKonXQWUDyGFVMcREhcYKmnBYvx2','user'),(9,'pew','$2y$13$LQ2vmQTXxlC1Gqv7nF.GeOg87k/Ma5bg37/jKNePpl0SZJe4Xo736','user'),(11,'ow','$2y$13$2chxep9rG1q3HpRpjvcSpuithfbhOPfaCjgkiJF2zCK5VzYqm1Cpm','user'),(13,'TESTY','$2y$13$RmtOm4g5HajxyNonxtJdh.1x0jWEy4bUCrdigKLR/4NORuAivVV7e','user'),(14,'тест','$2y$13$iCfPMldwO.uHTmFHo3DKWO8lKLTCD0SrvSqBdu71cY.GNtWyPUqqe','user'),(15,'test123','$2y$13$lJLaZoSxEzUZrV4QjU8L7ePNqwehgphkT.PQNY81bYqaw0HfGHpxu','user');
+INSERT INTO `user` VALUES (1,'123','$2y$13$0OW8A85O8Op6spE/RgaEaeuyPrHlNXaAYAaeouST0iKkCgV8FE3Xq','user'),(8,'tester','$2y$13$SVBUCLRvGLxKmSc2AZo/aerGKDKonXQWUDyGFVMcREhcYKmnBYvx2','user'),(9,'pew','$2y$13$LQ2vmQTXxlC1Gqv7nF.GeOg87k/Ma5bg37/jKNePpl0SZJe4Xo736','user'),(11,'ow','$2y$13$2chxep9rG1q3HpRpjvcSpuithfbhOPfaCjgkiJF2zCK5VzYqm1Cpm','user'),(13,'TESTY','$2y$13$RmtOm4g5HajxyNonxtJdh.1x0jWEy4bUCrdigKLR/4NORuAivVV7e','user'),(14,'тест','$2y$13$iCfPMldwO.uHTmFHo3DKWO8lKLTCD0SrvSqBdu71cY.GNtWyPUqqe','user'),(15,'test123','$2y$13$lJLaZoSxEzUZrV4QjU8L7ePNqwehgphkT.PQNY81bYqaw0HfGHpxu','user'),(16,'demo','$2y$13$QNcKmOZtpN62twgACMfFaOD6B3qEYnv4170WbJfw7muJ3q0SpUzv6','user');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -83,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-04 16:52:21
+-- Dump completed on 2020-02-14 12:17:28
