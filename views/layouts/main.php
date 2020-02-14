@@ -1,7 +1,11 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/**
+ * Данный лэйаут позволяет регистрироваться/входить/выходить на любых страницах
+ * за счет настроенной системы авторизации в данном вью
+ * Формы входа и регистрации расположены в модальных окнах,
+ * при ошибках будут выдаваться соответствующие сообщения
+ */
 
 use app\widgets\Alert;
 use yii\helpers\Html;
@@ -17,8 +21,12 @@ use yii\web\View;
 
 AppAsset::register($this);
 
-$this->registerJs(
-  "
+/**
+ * Регистрирует JS скрипт
+ * Парсит URL: если есть параметр login и он имеет значение
+ * failed - открывает модальное окно входа и выдает ошибку входа
+ */
+$this->registerJs("
   let params = window.location.search.split('?&')
   if(params[(params.length) - 1] == 'login=failed')
   {
@@ -31,8 +39,7 @@ $this->registerJs(
       $($('#login-form .help-block')[0]).parent().addClass('has-error');
       $($('#login-form .help-block')[1]).parent().addClass('has-error');
     }
-  }
-    ",
+  }",
   View::POS_LOAD,
   'loggin-script'
 );
@@ -54,7 +61,11 @@ $this->registerJs(
 
 $postRequest = Yii::$app->request->post();
 
-//Вход
+  /**
+   * Работа с формой входа
+   * Если в параметрах GET есть login=failed, будет произведена валидация для выдачи ошибки
+   * (знаю, что корявый велосипед)
+   */
   $loginFormModel = new LoginForm;
   if(Yii::$app->request->get('login') == 'failed') {
     $loginFormModel->validate('loginFailed');
@@ -74,7 +85,10 @@ $postRequest = Yii::$app->request->post();
     ActiveForm::end();
   Modal::end();
 
-  //Регистрация
+  /**
+   * Работа с формой регистрации
+   * Передает заполненные поля по роуту authorization/registration
+   */
   $registerFormModel = new RegisterForm;
   Modal::begin([
     'header' => 'Регистрация учётной записи',
