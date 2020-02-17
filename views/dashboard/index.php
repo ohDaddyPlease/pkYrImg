@@ -49,10 +49,8 @@ $this->registerJs(
   <h1><?= Html::encode($title);?></h1>
   <?= Html::img(Html::encode($img), ['alt' => Html::encode($title)]); ?>
   <div style="display: block; margin-left: auto; margin-right: auto; max-width: 260px; padding-top: 15px;">
-  <?= Html::button('<<', ['id' => 'prev', 'style' => 'display: inline-block; padding-right: 10px; color: black; cursor: pointer; font-weight: bold;']); ?>
-  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1]); ?>
-  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0]); ?>
-  <?= Html::button('>>', ['id' => 'next', 'style' => 'display: inline-block;  padding-left: 10px; color: black; cursor: pointer; font-weight: bold;']); ?>
+  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'width: 49%;']); ?>
+  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'width: 49%;']); ?>
   <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border: 1px solid red; padding: 10px; display: none;">Для оценки картинок необходимо авторизоваться!</p>
   </div>
 </div>
