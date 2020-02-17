@@ -7,6 +7,7 @@
  */
 
 use app\models\db\Like;
+use Yii;
 
 $user_id = Yii::$app->user->identity->id;
 $likes = Like::find()
@@ -16,9 +17,8 @@ $likes = Like::find()
 $posts = '';
 foreach($likes as $like)
 {
-  $posts .= ' ' . $like->post_id;
+  echo "<img src='".(Yii::$app->picker->pick($like->post_id))['img']."' style='height: 100px; border: 1px black solid; margin: 10px;'>";
 }
-?>
 
-<p>Вы лайкнули следующие посты: </p>
-<p><?= $posts ?></p>
+
+?>
