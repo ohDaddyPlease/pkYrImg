@@ -15,12 +15,12 @@ class Picker extends Component
    *
    * @return void
    */
-  public function pick()
+  public function pick($num = null)
   {
     /**
      * Рандомная выдача числа от 1 до номера последнего выпуска
      */
-    $num = rand(1, 2260);
+    $num ?? $num = rand(1, 2260);
     $curl = curl_init("https://xkcd.com/{$num}/info.0.json");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     return json_decode(curl_exec($curl), 1);
