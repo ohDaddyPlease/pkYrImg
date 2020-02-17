@@ -8,6 +8,8 @@
 
 use app\models\db\Like;
 use Yii;
+use yii\bootstrap\Modal;
+use yii\web\View;
 
 $this->registerCss("
   .show_img{
@@ -20,15 +22,29 @@ $this->registerCss("
     cursor: pointer;
   border: 1px solid red;
   }
-   /*
-  .show_img:hover{
-   position: absolute;
-   height: 200px;
-   padding: 30px;
-   background: white;
-   } 
-*/
 ");
+
+$this->registerJs("
+$('.show_img').click(function(data){
+  $('#pic-modal .modal-body').html('<img src='+data.target.src+'>');
+  $('#pic-modal .modal-content').width($('#pic-modal .modal-body img')[0].width + 33);
+  $('#pic-modal').modal('show');
+});
+ 
+",
+View::POS_READY
+);
+
+Modal::begin([
+  'header' => false,
+  'footer' => false,
+  'options' => [
+    'id' => 'pic-modal'
+  ],
+  'size' => Modal::SIZE_DEFAULT
+]);
+echo 'test';
+Modal::end();
 
 $user_id = Yii::$app->user->identity->id;
 $likes = Like::find()
