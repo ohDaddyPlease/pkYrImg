@@ -63,7 +63,7 @@ class AuthorizationController extends Controller
     $user->password = Yii::$app->security->generatePasswordHash($request['password']);
     $user->save();
 
-    Yii::$app->user->login($user->login);
+    Yii::$app->user->login($user);
     return $this->redirect(Yii::$app->request->referrer);
   }
 
