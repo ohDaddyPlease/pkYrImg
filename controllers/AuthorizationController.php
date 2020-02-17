@@ -76,6 +76,6 @@ class AuthorizationController extends Controller
   public function actionLogout()
   {
     Yii::$app->user->logout();
-    return $this->redirect($this->goHome());
+    return $this->goHome();
   }
 }
