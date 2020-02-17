@@ -19,7 +19,7 @@ $this->registerCss("
  * В ином случае будет подключен скрипт для выдачи ошибки
  */
 $this->registerJs(
-  Yii::$app->user->isGuest ?
+  !Yii::$app->user->isGuest ?
   "$('#like_button, #dislike_button').click(function(data){
     $.ajax({
       url: '?r=dashboard/like-dislike',
@@ -44,6 +44,7 @@ $this->registerJs(
 );
 
 ?>
+
 <div>
   <h1><?= Html::encode($title);?></h1>
   <?= Html::img(Html::encode($img), ['alt' => Html::encode($title)]); ?>
