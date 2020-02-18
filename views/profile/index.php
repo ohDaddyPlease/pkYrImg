@@ -27,7 +27,7 @@ $this->registerCss("
 $this->registerJs("
 $('.show_img').click(function(data){
   $('#pic-modal .modal-body').html('<img src='+data.target.src+'>');
-  $('#pic-modal .modal-content').width($('#pic-modal .modal-body img')[0].width + 33);
+  $('#pic-modal .modal-dialog').width($('#pic-modal .modal-body img')[0].width + 33);
   $('#pic-modal').modal('show');
 });
  
