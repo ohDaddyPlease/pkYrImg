@@ -16,14 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `pkyrimg`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `pkyrimg` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
-
-USE `pkyrimg`;
-
---
 -- Table structure for table `assessment`
 --
 
@@ -59,8 +51,9 @@ CREATE TABLE `like` (
   `user_id` int(11) DEFAULT NULL,
   `post_id` int(11) DEFAULT NULL,
   `action` tinyint(1) DEFAULT NULL,
+  `img` char(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +62,7 @@ CREATE TABLE `like` (
 
 LOCK TABLES `like` WRITE;
 /*!40000 ALTER TABLE `like` DISABLE KEYS */;
-INSERT INTO `like` VALUES (1,123,321,NULL),(2,1,111,NULL),(3,1,222,NULL),(4,1,333,NULL),(5,16,111,NULL),(6,16,222,NULL),(7,16,333,NULL),(8,16,444,NULL),(9,16,98,NULL),(10,16,98,NULL),(11,16,98,NULL),(12,16,98,NULL),(13,16,98,NULL),(14,16,98,NULL),(15,16,98,NULL),(16,16,98,NULL),(17,16,98,NULL),(18,16,98,NULL),(19,16,98,NULL),(20,16,98,NULL),(21,16,98,NULL),(22,16,98,NULL),(23,16,98,NULL),(24,16,369,0),(25,16,1861,1),(26,16,22,1),(27,16,1603,0),(28,16,1603,0),(29,16,1603,1),(30,16,1603,1);
+INSERT INTO `like` VALUES (1,123,321,NULL,NULL),(2,1,111,NULL,NULL),(3,1,222,NULL,NULL),(4,1,333,NULL,NULL),(5,16,111,NULL,NULL),(6,16,222,NULL,NULL),(7,16,333,NULL,NULL),(8,16,444,NULL,NULL),(9,16,98,NULL,NULL),(10,16,98,NULL,NULL),(11,16,98,NULL,NULL),(12,16,98,NULL,NULL),(13,16,98,NULL,NULL),(14,16,98,NULL,NULL),(15,16,98,NULL,NULL),(16,16,98,NULL,NULL),(17,16,98,NULL,NULL),(18,16,98,NULL,NULL),(19,16,98,NULL,NULL),(20,16,98,NULL,NULL),(21,16,98,NULL,NULL),(22,16,98,NULL,NULL),(23,16,98,NULL,NULL),(24,16,369,0,NULL),(25,16,1861,1,NULL),(26,16,22,1,NULL),(27,16,1603,0,NULL),(28,16,1603,0,NULL),(29,16,1603,1,NULL),(30,16,1603,1,NULL),(31,16,58,1,'https://imgs.xkcd.com/comics/why_do_you_love_me.jpg'),(32,16,843,1,'https://imgs.xkcd.com/comics/misconceptions.png'),(33,16,2222,1,'https://imgs.xkcd.com/comics/terminator_dark_fate.png'),(34,16,1888,1,'https://imgs.xkcd.com/comics/still_in_use.png'),(35,16,830,1,'https://imgs.xkcd.com/comics/genetic_analysis.png'),(36,16,648,1,'https://imgs.xkcd.com/comics/fall_foliage.png'),(37,16,1137,1,'https://imgs.xkcd.com/comics/rtl.png');
 /*!40000 ALTER TABLE `like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-14 12:17:28
+-- Dump completed on 2020-02-24 22:18:36
