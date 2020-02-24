@@ -54,7 +54,7 @@ $likes = Like::find()
 $posts = '';
 foreach($likes as $like)
 {
-  echo "<img src='".(Yii::$app->picker->pick($like->post_id))['img']."' class='show_img'>";
+  echo "<img src='".($like->img ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' class='show_img'>";
 }
 
 
