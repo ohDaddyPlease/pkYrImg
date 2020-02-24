@@ -26,6 +26,7 @@ $this->registerJs(
       type: 'POST',
       data: {
         num: $num,
+        img: '$img',
         action: data.target.dataset.action
       },
       success: function() {
