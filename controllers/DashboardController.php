@@ -37,6 +37,7 @@ class DashboardController extends Controller
     $like->user_id = Yii::$app->user->identity->id;
     $like->post_id = $_POST['num'];
     $like->action = $_POST['action'];
+    $like->img = $_POST['img'];
     $like->save();
   }
 }
