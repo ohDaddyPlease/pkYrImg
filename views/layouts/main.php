@@ -27,20 +27,34 @@ AppAsset::register($this);
  * failed - открывает модальное окно входа и выдает ошибку входа
  */
 $this->registerJs("
-  let params = window.location.search.split('?&')
-  if(params[(params.length) - 1] == 'login=failed')
-  {
-    $('#login').modal('show');
-    $($('#login-form .help-block')[0]).text('Возможно, неправильный пароль!');
-    $($('#login-form .help-block')[1]).text('Возможно, неправильный логин!');
+    $('#login-form').submit(function(e){
+      e.preventDefault();
 
-    if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
-    {
-      $($('#login-form .help-block')[0]).parent().addClass('has-error');
-      $($('#login-form .help-block')[1]).parent().addClass('has-error');
-    }
-  }",
-  View::POS_LOAD,
+      $.ajax({
+        url: '?r=authorization/login',
+        method: 'POST',
+        data: $('#login-form').serialize(),
+        success: function(data){
+          if(data){
+          window.location.reload();
+          }else{
+            $($('#login-form .help-block')[0]).text('Возможно, неправильный пароль!');
+            $($('#login-form .help-block')[1]).text('Возможно, неправильный логин!');
+        
+            if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
+            {
+              $($('#login-form .help-block')[0]).parent().addClass('has-error');
+              $($('#login-form .help-block')[1]).parent().addClass('has-error');
+            }
+          }
+        },
+        error: function(){
+          console.log('[Форма авторизации] Что-то пошло не так...')
+        }
+      });
+    });
+",
+  View::POS_READY,
   'loggin-script'
 );
 
@@ -76,7 +90,6 @@ $postRequest = Yii::$app->request->post();
     'options' => ['id' => 'login'],
   ]);
     $loginForm = ActiveForm::begin([
-      'action' => '?r=authorization/login',
       'id' => 'login-form'
     ]);
     echo $loginForm->field($loginFormModel, 'login')->label('Имя пользователя (логин)');
