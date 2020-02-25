@@ -32,8 +32,8 @@ $this->registerJs(
       success: function() {
         location.reload();
       },
-      error: function(jqXHR, errMsg) {
-        alert(errMsg);
+      error: function() {
+        console.log('[Форма лайков/дизлайков] Что-то пошло не так...');
       }
     });
     });
