@@ -5,6 +5,7 @@ namespace app\controllers;
 use yii\web\Controller;
 use Yii;
 use app\models\db\User;
+use app\models\forms\LoginForm;
 
 /**
  * Контроллер авторизации
@@ -22,8 +23,13 @@ class AuthorizationController extends Controller
   {
     if(!Yii::$app->request->post())
       return $this->goHome();
-      
     $request = Yii::$app->request->post('LoginForm');
+
+    // $loginForm = new LoginForm();
+    // $loginForm->password = $request['password'];
+    // $loginForm->login = $request['login'];
+    // $loginForm->validate();
+
     $identity = User::findOne(['login' => $request['login']]);
     if($identity  && Yii::$app->security->validatePassword($request['password'], $identity->password))
     {
@@ -33,7 +39,8 @@ class AuthorizationController extends Controller
        * Параметр '?&login=success' необходим для формы входа
        * Если success - авторизация прошла успешно
        */
-      return $this->redirect(Yii::$app->request->referrer . '?&login=success');
+      //return $this->redirect(Yii::$app->request->referrer . '?&login=success');
+      return true;
     }
     else
 
@@ -42,7 +49,8 @@ class AuthorizationController extends Controller
        * Если failed - авторизация не увенчалась успехом и будет открыта форма авторизации,
        * с указанием ошибки
        */
-      return $this->redirect(Yii::$app->request->referrer . '?&login=failed');
+      //return $this->redirect(Yii::$app->request->referrer . '?&login=failed');
+      return false;
     }
 
   /**
@@ -78,4 +86,12 @@ class AuthorizationController extends Controller
     Yii::$app->user->logout();
     return $this->goHome();
   }
+
+  // public function actionUserExists()
+  // {
+  //   $l = (new LoginForm);
+  //   $l->password = '123';
+  //   $l->login = 'lol';
+  //   return $l->validate();
+  // }
 }
