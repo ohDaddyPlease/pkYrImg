@@ -17,6 +17,13 @@ class User extends ActiveRecord implements IdentityInterface
     return 'user';
   }
 
+  public function rules()
+  {
+    return [
+      ['login', 'unique']
+    ];
+  }
+
   /**
    * Finds an identity by the given ID.
    *
