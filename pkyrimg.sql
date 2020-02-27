@@ -53,7 +53,7 @@ CREATE TABLE `like` (
   `action` tinyint(1) DEFAULT NULL,
   `img` char(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,6 @@ CREATE TABLE `like` (
 
 LOCK TABLES `like` WRITE;
 /*!40000 ALTER TABLE `like` DISABLE KEYS */;
-INSERT INTO `like` VALUES (1,123,321,NULL,NULL),(2,1,111,NULL,NULL),(3,1,222,NULL,NULL),(4,1,333,NULL,NULL),(5,16,111,NULL,NULL),(6,16,222,NULL,NULL),(7,16,333,NULL,NULL),(8,16,444,NULL,NULL),(9,16,98,NULL,NULL),(10,16,98,NULL,NULL),(11,16,98,NULL,NULL),(12,16,98,NULL,NULL),(13,16,98,NULL,NULL),(14,16,98,NULL,NULL),(15,16,98,NULL,NULL),(16,16,98,NULL,NULL),(17,16,98,NULL,NULL),(18,16,98,NULL,NULL),(19,16,98,NULL,NULL),(20,16,98,NULL,NULL),(21,16,98,NULL,NULL),(22,16,98,NULL,NULL),(23,16,98,NULL,NULL),(24,16,369,0,NULL),(25,16,1861,1,NULL),(26,16,22,1,NULL),(27,16,1603,0,NULL),(28,16,1603,0,NULL),(29,16,1603,1,NULL),(30,16,1603,1,NULL),(31,16,58,1,'https://imgs.xkcd.com/comics/why_do_you_love_me.jpg'),(32,16,843,1,'https://imgs.xkcd.com/comics/misconceptions.png'),(33,16,2222,1,'https://imgs.xkcd.com/comics/terminator_dark_fate.png'),(34,16,1888,1,'https://imgs.xkcd.com/comics/still_in_use.png'),(35,16,830,1,'https://imgs.xkcd.com/comics/genetic_analysis.png'),(36,16,648,1,'https://imgs.xkcd.com/comics/fall_foliage.png'),(37,16,1137,1,'https://imgs.xkcd.com/comics/rtl.png');
 /*!40000 ALTER TABLE `like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +79,7 @@ CREATE TABLE `user` (
   `role` varchar(255) NOT NULL DEFAULT 'user',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +88,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'123','$2y$13$0OW8A85O8Op6spE/RgaEaeuyPrHlNXaAYAaeouST0iKkCgV8FE3Xq','user'),(8,'tester','$2y$13$SVBUCLRvGLxKmSc2AZo/aerGKDKonXQWUDyGFVMcREhcYKmnBYvx2','user'),(9,'pew','$2y$13$LQ2vmQTXxlC1Gqv7nF.GeOg87k/Ma5bg37/jKNePpl0SZJe4Xo736','user'),(11,'ow','$2y$13$2chxep9rG1q3HpRpjvcSpuithfbhOPfaCjgkiJF2zCK5VzYqm1Cpm','user'),(13,'TESTY','$2y$13$RmtOm4g5HajxyNonxtJdh.1x0jWEy4bUCrdigKLR/4NORuAivVV7e','user'),(14,'тест','$2y$13$iCfPMldwO.uHTmFHo3DKWO8lKLTCD0SrvSqBdu71cY.GNtWyPUqqe','user'),(15,'test123','$2y$13$lJLaZoSxEzUZrV4QjU8L7ePNqwehgphkT.PQNY81bYqaw0HfGHpxu','user'),(16,'demo','$2y$13$QNcKmOZtpN62twgACMfFaOD6B3qEYnv4170WbJfw7muJ3q0SpUzv6','user');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -102,4 +100,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-24 22:18:36
+-- Dump completed on 2020-02-27 13:45:24
