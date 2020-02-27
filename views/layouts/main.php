@@ -56,6 +56,33 @@ $this->registerJs("
         }
       });
     });
+
+    $('#register-form').submit(function(e){
+      e.preventDefault();
+
+      $.ajax({
+        url: '?r=authorization/registration',
+        method: 'POST',
+        data: $('#register-form').serialize(),
+        success: function(data){
+          if(data){
+          window.location.reload();
+          }else{
+            $($('#register-form .help-block')[0]).text('Такой пользователь существует!');
+            $($('#register-form .help-block')[1]).text('');
+        
+            if(!$($('#register-form .help-block')[0]).parent().hasClass('has-error') || !$($('#register-form .help-block')[1]).parent().hasClass('has-error'))
+            {
+              $($('#register-form .help-block')[0]).parent().addClass('has-error');
+              $($('#register-form .help-block')[1]).parent().addClass('has-error');
+            }
+          }
+        },
+        error: function(){
+          console.log('[Форма регистрации] Что-то пошло не так...')
+        }
+      });
+    });
 ",
   View::POS_READY,
   'loggin-script'
@@ -110,8 +137,9 @@ $postRequest = Yii::$app->request->post();
     'header' => 'Регистрация учётной записи',
     'options' => ['id' => 'register'],
   ]);
-    $registerForm = ActiveForm::begin();
-    $registerForm->action = '?r=authorization/registration';
+    $registerForm = ActiveForm::begin([
+      'id' => 'register-form'
+    ]);
     echo $registerForm->field($registerFormModel, 'login')->label('Имя пользователя (логин)');
     echo $registerForm->field($registerFormModel, 'password')->input('password')->label('Пароль');
     echo Html::submitButton('Зарегистрироваться');
