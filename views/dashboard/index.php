@@ -11,6 +11,26 @@ $this->registerCss("
     margin-left: auto;
     margin-right: auto;
     }
+  #like_button{
+    border: 2px solid dodgerblue;
+    border-radius: 10px;
+    background: white;
+    color: dodgerblue;
+  }
+  #like_button:hover{
+    background: powderblue;
+    transition: 0.8s;
+  }
+  #dislike_button{
+    border: 2px solid brown;
+    border-radius: 10px;
+    background: white;
+    color: brown;
+  }
+  #dislike_button:hover{
+    background: sandybrown;
+    transition: 0.8s;
+  }
 ");
 
 /**
@@ -47,11 +67,11 @@ $this->registerJs(
 ?>
 
 <div>
-  <h1><?= Html::encode($title);?></h1>
+  <h1 style="border-bottom: 2px solid white; margin-bottom: 20px;"><?= Html::encode($title);?></h1>
   <?= Html::img(Html::encode($img), ['alt' => Html::encode($title)]); ?>
-  <div style="display: block; margin-left: auto; margin-right: auto; max-width: 260px; padding-top: 15px;">
-  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'width: 49%;']); ?>
-  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'width: 49%;']); ?>
+  <div style="display: block; margin-left: auto; margin-right: auto; max-width: 350px; height: 45px; padding-top: 15px;">
+  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'width: 49%; height: 100%; font-size: medium;']); ?>
+  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'width: 49%; height: 100%; font-size: medium;']); ?>
   <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border: 1px solid red; padding: 10px; display: none;">Для оценки картинок необходимо авторизоваться!</p>
   </div>
 </div>
