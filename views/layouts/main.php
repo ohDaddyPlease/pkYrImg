@@ -41,8 +41,8 @@ $this->registerJs("
           if(data){
           window.location.reload();
           }else{
-            $($('#login-form .help-block')[0]).text('Возможно, неправильный пароль!');
-            $($('#login-form .help-block')[1]).text('Возможно, неправильный логин!');
+            $($('#login-form .help-block')[0]).text('Возможно, неправильный логин!');
+            $($('#login-form .help-block')[1]).text('Возможно, неправильный пароль!');
         
             if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
             {
