@@ -89,7 +89,7 @@ $this->registerJs(
         clearInterval(interval);
       }
     });
-    
+
     $('#like_button, #dislike_button').click(function(){
     $('#need_auth').css('display', 'block');
     });",
@@ -103,8 +103,8 @@ $this->registerJs(
   <h1 style="border-bottom: 2px solid white; margin-bottom: 20px;" id="title"><?= Html::encode($title);?></h1>
   <?= Html::img(Html::encode($img), ['alt' => Html::encode($title), 'id' => 'img_id', 'data-num' => $num]); ?>
   <div style="display: block; margin-left: auto; margin-right: auto; max-width: 350px; height: 45px; padding-top: 15px;">
-  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'width: 49%; height: 100%; font-size: medium;']); ?>
-  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'width: 49%; height: 100%; font-size: medium;']); ?>
+  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: 49%; height: 100%; font-size: medium;']); ?>
+  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 49%; height: 100%; font-size: medium;']); ?>
   <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border: 1px solid red; padding: 10px; display: none;">Для оценки картинок необходимо авторизоваться!</p>
   </div>
 </div>
