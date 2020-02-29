@@ -7,7 +7,6 @@
  */
 
 use app\models\db\Like;
-use Yii;
 use yii\bootstrap\Modal;
 use yii\web\View;
 
