@@ -39,5 +39,7 @@ class DashboardController extends Controller
     $like->action = $_POST['action'];
     $like->img = $_POST['img'];
     $like->save();
+
+    return json_encode(Yii::$app->picker->pick());
   }
 }
