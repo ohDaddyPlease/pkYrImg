@@ -30,7 +30,7 @@ AppAsset::register($this);
  * Note: работает без перезагрузки страницы
  */
 $this->registerJs("
-    $('#login-form').submit(function(e){
+    $('#login-submit').click(function(e){
       e.preventDefault();
 
       $.ajax({
@@ -57,7 +57,7 @@ $this->registerJs("
       });
     });
 
-    $('#register-form').submit(function(e){
+    $('#register-submit').click(function(e){
       e.preventDefault();
 
       $.ajax({
@@ -124,7 +124,7 @@ $postRequest = Yii::$app->request->post();
     ]);
     echo $loginForm->field($loginFormModel, 'login')->label('Имя пользователя (логин)');
     echo $loginForm->field($loginFormModel, 'password')->input('password')->label('Пароль');
-    echo Html::submitButton('Войти');
+    echo Html::submitButton('Войти', ['id'=>'login-submit']);
     ActiveForm::end();
   Modal::end();
 
@@ -142,7 +142,7 @@ $postRequest = Yii::$app->request->post();
     ]);
     echo $registerForm->field($registerFormModel, 'login')->label('Имя пользователя (логин)');
     echo $registerForm->field($registerFormModel, 'password')->input('password')->label('Пароль');
-    echo Html::submitButton('Зарегистрироваться');
+    echo Html::submitButton('Зарегистрироваться', ['id'=>'register-submit']);
     ActiveForm::end();
   Modal::end();
 
