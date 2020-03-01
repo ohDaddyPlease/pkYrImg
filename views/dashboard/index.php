@@ -31,6 +31,21 @@ $this->registerCss("
     background: sandybrown;
     transition: 0.8s;
   }
+  #favorite_button{
+    border: 2px solid limegreen;
+    border-radius: 10px;
+    background: white;
+    color: limegreen;
+  }
+  #favorite_button:hover{
+    background: palegreen;
+    transition: 0.8s;
+  }
+
+  .marked{
+    font-weight: bold !important;
+    color: black !important;
+  }
 ");
 
 /**
@@ -80,6 +95,10 @@ $this->registerJs(
       }
     });
     });
+
+    $('#favorite_button').click(function(){
+      $(this).text('В избранном').addClass('marked');
+    });
     " : 
     "
     let interval = setInterval(function(){
@@ -102,9 +121,10 @@ $this->registerJs(
   <div id="loader" style="border-radius: 5px; width: 100%; height: calc(100% + 2px); position: absolute; background: antiquewhite; border: 10px solid; display: table;"><p style="display: table-cell; vertical-align: middle; text-align: center; font-size: large; font-weight: bolder;"> Пожалуйста, подождите :)</p></div>
   <h1 style="border-bottom: 2px solid white; margin-bottom: 20px;" id="title"><?= Html::encode($title);?></h1>
   <?= Html::img(Html::encode($img), ['alt' => Html::encode($title), 'id' => 'img_id', 'data-num' => $num]); ?>
-  <div style="display: block; margin-left: auto; margin-right: auto; max-width: 350px; height: 45px; padding-top: 15px;">
-  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: 49%; height: 100%; font-size: medium;']); ?>
-  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 49%; height: 100%; font-size: medium;']); ?>
+  <div style="display: block; margin-left: auto; margin-right: auto; max-width: 400px; height: 45px; padding-top: 15px;">
+  <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
+  <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
+  <?= Html::button('В избранное', ['class' => 'favorite_button', 'id' => 'favorite_button', 'data-action' => 0, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
   <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border: 1px solid red; padding: 10px; display: none;">Для оценки картинок необходимо авторизоваться!</p>
   </div>
 </div>
