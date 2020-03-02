@@ -40,6 +40,28 @@ LOCK TABLES `assessment` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `favorite`
+--
+
+DROP TABLE IF EXISTS `favorite`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `favorite` (
+  `user` int(11) DEFAULT NULL,
+  `post` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favorite`
+--
+
+LOCK TABLES `favorite` WRITE;
+/*!40000 ALTER TABLE `favorite` DISABLE KEYS */;
+/*!40000 ALTER TABLE `favorite` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `like`
 --
 
@@ -88,7 +110,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'demo','$2y$13$3Eum2bpedRq8yV4c4s32AuP36HyHzguHu1/2VjJCTVaAVnP1DOl36','user');
+INSERT INTO `user` VALUES (1,'demo','$2y$13$XC/lNejJ1c6zE6QW3nTtx.zWpGfTHPjSQ0/bGKA7P7MWXcVjB1BxC','user');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -101,4 +123,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-27 13:46:49
+-- Dump completed on 2020-03-02 13:48:06
