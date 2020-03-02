@@ -16,7 +16,7 @@ class RegisterForm extends Model
   public function rules()
   {
     return [
-      [['login', 'password'], 'required'],
+      [['login', 'password'], 'required', 'message' => 'Это обязательное поле!'],
     ];
   }
 }
