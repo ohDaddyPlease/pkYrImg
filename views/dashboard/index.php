@@ -46,6 +46,13 @@ $this->registerCss("
     font-weight: bold !important;
     color: black !important;
   }
+
+  .auth_btn{
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 3px;
+    text-decoration: none !important;
+  }
 ");
 
 /**
@@ -125,6 +132,6 @@ $this->registerJs(
   <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
   <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
   <?= Html::button('В избранное', ['class' => 'favorite_button', 'id' => 'favorite_button', 'data-action' => 0, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
-  <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border-bottom: 1px solid red; border-top: 1px solid red; padding: 10px; display: none;">Вы не авторизованы!<br><a href='#login' data-toggle='modal'>Войдите</a> в аккаунт или <a href='#register' data-toggle='modal'>зарегистрируйте</a> новый.</p>
+  <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border-bottom: 1px solid red; border-top: 1px solid red; padding: 10px; display: none; line-height: 25px;">Вы не авторизованы!<br><a  class='auth_btn' href='#login' data-toggle='modal'>Войдите</a> в аккаунт или <a class='auth_btn' href='#register' data-toggle='modal'>зарегистрируйте</a> новый.</p>
   </div>
 </div>
