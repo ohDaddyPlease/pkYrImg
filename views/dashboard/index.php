@@ -109,7 +109,7 @@ $this->registerJs(
       }
     });
 
-    $('#like_button, #dislike_button').click(function(){
+    $('#like_button, #dislike_button, #favorite_button').click(function(){
     $('#need_auth').css('display', 'block');
     });",
   View::POS_READY
@@ -125,6 +125,6 @@ $this->registerJs(
   <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
   <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
   <?= Html::button('В избранное', ['class' => 'favorite_button', 'id' => 'favorite_button', 'data-action' => 0, 'style' => 'outline: none; width: 32%; height: 100%; font-size: medium;']); ?>
-  <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border: 1px solid red; padding: 10px; display: none;">Для оценки картинок необходимо авторизоваться!</p>
+  <p id="need_auth" style="color: red; text-align: center; margin-top: 10px; border: 1px solid red; padding: 10px; display: none;">Вы не авторизованы!<br><a href='#login' data-toggle='modal'>Войдите</a> в аккаунт или <a href='#register' data-toggle='modal'>зарегистрируйте</a> новый.</p>
   </div>
 </div>
