@@ -42,4 +42,15 @@ class DashboardController extends Controller
 
     return json_encode(Yii::$app->picker->pick());
   }
+
+  /**
+   * Действие для добавления поста (картинки) в БД, с соотнесением id поста с id пользователя
+   *
+   * @return void
+   */
+  public function actionAddToFavorite()
+  {
+    if(!Yii::$app->user->identity) return;
+
+  }
 }
