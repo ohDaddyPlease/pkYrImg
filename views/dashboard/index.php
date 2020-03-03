@@ -97,14 +97,29 @@ $this->registerJs(
         
       },
       error: function(e) {
-        console.log('[Форма лайков/дизлайков] Что-то пошло не так...');
+        console.log('[Кнопки лайка/дизлайка] Что-то пошло не так...');
         console.error(e);
       }
     });
     });
 
     $('#favorite_button').click(function(){
-      $(this).text('В избранном').addClass('marked');
+      $.ajax({
+        url: '?r=dashboard/add-to-favorite',
+        type: 'POST',
+        data: {
+          num: $('#img_id').attr('data-num'),
+        },
+        success: function(){
+          $('#favorite_button').click(function(){
+            $(this).text('В избранном').addClass('marked');
+          });
+        },
+        error: function(e){
+          console.log('[Кнопка добавления в избранное] Что-то пошло не так...');
+          console.error(e);
+        }
+      });
     });
     " : 
     "
