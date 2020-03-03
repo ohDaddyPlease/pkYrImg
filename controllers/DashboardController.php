@@ -4,6 +4,7 @@ namespace app\controllers;
 use yii\web\Controller;
 use Yii;
 use app\models\db\Like;
+use app\models\db\Favorite;
 
 /**
  * Контроллер главной страницы (дашборда)
@@ -31,13 +32,13 @@ class DashboardController extends Controller
    */
   public function actionLikeDislike()
   {
-    if(!Yii::$app->user->identity) return;
+    if(Yii::$app->user->isGuest || (!Yii::$app->user->isGuest && !Yii::$app->request->post())) return;
     
     $like = new Like;
     $like->user_id = Yii::$app->user->identity->id;
-    $like->post_id = $_POST['num'];
-    $like->action = $_POST['action'];
-    $like->img = $_POST['img'];
+    $like->post_id = Yii::$app->request->post('num');
+    $like->action = Yii::$app->request->post('action');
+    $like->img = Yii::$app->request->post('img');
     $like->save();
 
     return json_encode(Yii::$app->picker->pick());
@@ -50,7 +51,11 @@ class DashboardController extends Controller
    */
   public function actionAddToFavorite()
   {
-    if(!Yii::$app->user->identity) return;
+    if(Yii::$app->user->isGuest || (!Yii::$app->user->isGuest && !Yii::$app->request->post())) return;
 
+    $favorite = new Favorite;
+    $favorite->user = Yii::$app->user->identity->id;
+    $favorite->post = Yii::$app->request->post('num');
+    $favorite->save();
   }
 }
