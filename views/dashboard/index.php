@@ -111,9 +111,7 @@ $this->registerJs(
           num: $('#img_id').attr('data-num'),
         },
         success: function(){
-          $('#favorite_button').click(function(){
-            $(this).text('В избранном').addClass('marked');
-          });
+          $('#favorite_button').text('В избранном').addClass('marked');
         },
         error: function(e){
           console.log('[Кнопка добавления в избранное] Что-то пошло не так...');
