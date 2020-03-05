@@ -67,7 +67,6 @@ $('#dislike_button').click(function(data){
     },
     success: function(e) {
       $('#dislike_button').addClass('marked');
-      e = JSON.parse(e);
     },
     error: function(e) {
       console.log('[Кнопки лайка/дизлайка] Что-то пошло не так...');
