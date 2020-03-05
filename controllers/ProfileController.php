@@ -18,7 +18,8 @@ class ProfileController extends Controller
     if(Yii::$app->user->isGuest)
       return $this->goHome(); 
 
-    $likes = Like::find()->where(['user_id' => Yii::$app->user->identity->id, 'action' => 1]);
+    $likes = Like::find()->where(['user_id' => Yii::$app->user->identity->id, 
+                                  'action' => 1]);
     $pages = new Pagination(['totalCount' => $likes->count()]);
     $models = $likes->offset($pages->offset)
                     ->limit($pages->limit)
