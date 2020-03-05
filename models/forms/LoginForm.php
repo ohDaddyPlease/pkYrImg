@@ -17,13 +17,7 @@ class LoginForm extends Model
   {
     return [
       [['login', 'password'], 'required', 'message' => 'Это обязательное поле!'],
-      // ['login', 'validateUser']
     ];
   }
 
-  // public function validateUser($attribute, $params)
-  // {
-  //   if($this->$attribute !== 'lol') 
-  //     $this->addError($attribute, 'Неправильный логин или пароль!');
-  // }
 }

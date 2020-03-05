@@ -45,17 +45,6 @@ Modal::begin([
 echo 'test';
 Modal::end();
 
-// $user_id = Yii::$app->user->identity->id;
-// $likes = Like::find()
-//              ->where("user_id = $user_id AND action = 1")
-//              ->all();
-
-// $posts = '';
-// foreach($likes as $like)
-// {
-//   echo "<img src='".($like->img ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' class='show_img'>";
-// }
-
 foreach ($models as $model) {
   echo "<img src='".($model->img ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' class='show_img'>";
 }
