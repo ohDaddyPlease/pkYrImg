@@ -10,4 +10,15 @@ class Favorite extends ActiveRecord
   {
     return 'favorite';
   }
+
+  /**
+   * Задание primary key
+   * Необходимо для метода delete()
+   *
+   * @return void
+   */
+  public static function primaryKey()
+  {
+    return ['post'];
+  }
 }
