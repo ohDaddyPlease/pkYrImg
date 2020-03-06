@@ -67,6 +67,7 @@ $('#dislike_button').click(function(data){
     },
     success: function(e) {
       $('#dislike_button').addClass('marked');
+      $('[class=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').remove()
     },
     error: function(e) {
       console.log('[Кнопки лайка/дизлайка] Что-то пошло не так...');
