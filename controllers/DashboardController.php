@@ -34,14 +34,17 @@ class DashboardController extends Controller
   {
     if(Yii::$app->user->isGuest || (!Yii::$app->user->isGuest && !Yii::$app->request->post())) return;
 
-    if(($like = Like::findOne(['post_id' => Yii::$app->request->post('num'),
-                              'user_id' => Yii::$app->user->identity->id])) !== null)
+    if(($like = Like::findOne([
+        'post_id' => Yii::$app->request->post('num'),
+        'user_id' => Yii::$app->user->identity->id
+    ])) !== null)
     {
       $like->action = Yii::$app->request->post('action');
       $like->save();
 
       return json_encode(Yii::$app->picker->pick());
     }
+
     $like = new Like;
     $like->user_id = Yii::$app->user->identity->id;
     $like->post_id = Yii::$app->request->post('num');
@@ -60,6 +63,15 @@ class DashboardController extends Controller
   public function actionAddToFavorite()
   {
     if(Yii::$app->user->isGuest || (!Yii::$app->user->isGuest && !Yii::$app->request->post())) return;
+
+    if(($favorite = Favorite::findOne([
+        'post' => Yii::$app->request->post('num'),
+        'user' => Yii::$app->user->identity->id]
+    )) !== null)
+    {
+    $favorite->delete();
+    return;
+    }
 
     $favorite = new Favorite;
     $favorite->user = Yii::$app->user->identity->id;
