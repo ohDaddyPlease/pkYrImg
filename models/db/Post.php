@@ -5,12 +5,12 @@ namespace app\models\db;
 use yii\db\ActiveRecord;
 
 /**
- * Модель для работы с таблицей БД Like
+ * Модель для работы с таблицей БД post
  */
-class Like extends ActiveRecord
+class Post extends ActiveRecord
 {
   public static function tableName()
   {
-    return 'like';
+    return 'post';
   }
 }
