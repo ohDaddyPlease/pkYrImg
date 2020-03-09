@@ -5,7 +5,6 @@ namespace app\controllers;
 use yii\web\Controller;
 use Yii;
 use app\models\db\User;
-use app\models\forms\LoginForm;
 
 /**
  * Контроллер авторизации

@@ -3,8 +3,7 @@ namespace app\controllers;
 
 use yii\web\Controller;
 use Yii;
-use app\models\db\Like;
-use app\models\db\Favorite;
+use app\models\db\Post;
 
 /**
  * Контроллер главной страницы (дашборда)
@@ -34,23 +33,23 @@ class DashboardController extends Controller
   {
     if(Yii::$app->user->isGuest || (!Yii::$app->user->isGuest && !Yii::$app->request->post())) return;
 
-    if(($like = Like::findOne([
+    if(($post = Post::findOne([
         'post_id' => Yii::$app->request->post('num'),
         'user_id' => Yii::$app->user->identity->id
     ])) !== null)
     {
-      $like->action = Yii::$app->request->post('action');
-      $like->save();
+      $post->action = Yii::$app->request->post('action');
+      $post->save();
 
       return json_encode(Yii::$app->picker->pick());
     }
 
-    $like = new Like;
-    $like->user_id = Yii::$app->user->identity->id;
-    $like->post_id = Yii::$app->request->post('num');
-    $like->action = Yii::$app->request->post('action');
-    $like->img = Yii::$app->request->post('img');
-    $like->save();
+    $post = new Post;
+    $post->user_id = Yii::$app->user->identity->id;
+    $post->post_id = Yii::$app->request->post('num');
+    $post->action = Yii::$app->request->post('action');
+    $post->img = Yii::$app->request->post('img');
+    $post->save();
     
     return json_encode(Yii::$app->picker->pick());
   }
@@ -64,18 +63,24 @@ class DashboardController extends Controller
   {
     if(Yii::$app->user->isGuest || (!Yii::$app->user->isGuest && !Yii::$app->request->post())) return;
 
-    if(($favorite = Favorite::findOne([
-        'post' => Yii::$app->request->post('num'),
-        'user' => Yii::$app->user->identity->id]
+    if(($favorite = Post::findOne([
+        'post_id' => Yii::$app->request->post('num'),
+        'user_id' => Yii::$app->user->identity->id]
     )) !== null)
     {
-    $favorite->delete();
+      if($favorite->favorite == 0)
+        $favorite->favorite = 1;
+      else
+        $favorite->favorite = 0;
+    $favorite->save();
     return;
     }
 
-    $favorite = new Favorite;
-    $favorite->user = Yii::$app->user->identity->id;
-    $favorite->post = Yii::$app->request->post('num');
+    $favorite = new Post;
+    $favorite->user_id = Yii::$app->user->identity->id;
+    $favorite->post_id = Yii::$app->request->post('num');
+    $favorite->img = Yii::$app->request->post('img');
+    $favorite->favorite = 1;
     $favorite->save();
   }
 }
