@@ -109,9 +109,14 @@ $this->registerJs(
         type: 'POST',
         data: {
           num: $('#img_id').attr('data-num'),
+          img: $('#img_id').attr('src'),
         },
         success: function(){
-          $('#favorite_button').text('В избранном').addClass('marked');
+          if(!$('#favorite_button').hasClass('marked')){
+            $('#favorite_button').text('В избранном').addClass('marked');
+          }else{
+            $('#favorite_button').text('В избранное').removeClass('marked');
+          }
         },
         error: function(e){
           console.log('[Кнопка добавления в избранное] Что-то пошло не так...');
