@@ -10,6 +10,7 @@ use yii\widgets\LinkPager;
 use yii\bootstrap\Modal;
 use yii\web\View;
 use yii\bootstrap\Html;
+use app\models\db\Post;
 
 $this->registerCss("
   .show_img{
@@ -22,14 +23,14 @@ $this->registerCss("
     cursor: pointer;
     border: 2px solid red;
   }
-  #dislike_button{
-    border: 2px solid brown;
+  #like_button{
+    border: 2px solid dodgerblue;
     border-radius: 10px;
     background: white;
-    color: brown;
+    color: dodgerblue;
   }
-  #dislike_button:hover{
-    background: sandybrown;
+  #like_button:hover{
+    background: powderblue;
     transition: 0.8s;
   }
   #favorite_button{
@@ -86,17 +87,17 @@ $('.show_img').click(function(){
   $('#pic-modal').modal('show');
 });
 
-$('#dislike_button').click(function(data){
+$('#like_button').click(function(data){
   $.ajax({
     url: '?r=dashboard/like-dislike',
     type: 'POST',
     data: {
       num: $('#modal-img').attr('data-id'),
       img: $('#modal-img').attr('src'),
-      action: 0
+      action: 1
     },
     success: function(e) {
-      $('#dislike_button').addClass('marked');
+      $('#like_button').addClass('marked');
       $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').remove()
     },
     error: function(e) {
@@ -140,7 +141,7 @@ View::POS_READY
 Modal::begin([
   'header' => false,
   'footer' => 
-              Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 50%; height: 100%; font-size: medium;']) . 
+              Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: calc(50% - 10px); margin-left: 10px; height: 100%; font-size: medium;']) .
               Html::button('В избранное', ['class' => 'favorite_button', 'id' => 'favorite_button', 'data-action' => 0, 'style' => 'outline: none; width: calc(50% - 10px); margin-left: 10px; height: 100%; font-size: medium;']),
   'options' => [
     'id' => 'pic-modal'
@@ -150,7 +151,7 @@ Modal::begin([
 echo 'test';
 Modal::end();
 
-echo "<p class='text_center'><a href='?r=profile/likes' class='link'>Лайкнутые посты</a> | <a href='?r=profile/dislikes' class='link you_here'> Дизлайкнутые посты</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном</a></p>";
+echo "<p class='text_center'><a href='?r=profile/likes' class='link'>Лайкнутые посты (" . Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a> | <a href='?r=profile/dislikes' class='link you_here'> Дизлайкнутые посты (" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном (" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a></p>";
 
 foreach ($models as $model) {
   echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' data-id='$model->post_id' data-favorite='".($model->favorite ?? 0)."' class='show_img ".($model->favorite ?'favorite' : '')."'>";
