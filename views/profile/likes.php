@@ -10,6 +10,7 @@ use yii\widgets\LinkPager;
 use yii\bootstrap\Modal;
 use yii\web\View;
 use yii\bootstrap\Html;
+use app\models\db\Post;
 
 $this->registerCss("
   .show_img{
@@ -150,7 +151,7 @@ Modal::begin([
 echo 'test';
 Modal::end();
 
-echo "<p class='text_center'><a href='?r=profile/likes' class='link  you_here'>Лайкнутые посты</a> | <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном</a></p>";
+echo "<p class='text_center'><a href='?r=profile/likes' class='link  you_here'>Лайкнутые посты (" . Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a> | <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном (" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a></p>";
 
 foreach ($models as $model) {
   echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' data-id='$model->post_id' data-favorite='".($model->favorite ?? 0)."' class='show_img ".($model->favorite ?'favorite' : '')."'>";
