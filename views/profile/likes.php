@@ -71,6 +71,10 @@ $this->registerCss("
   .you_here{
     font-weight: bold;
   }
+
+  #like_count, #dislike_count, #favorite_count{
+    display: inline-block;
+  }
 ");
 
 $this->registerJs("
@@ -83,7 +87,7 @@ $('.show_img').click(function(){
   }
 
   $('#pic-modal .modal-body').html('<img id=\'modal-img\' src=\''+$(this).attr('src')+ '\' data-id='+$(this).data('id')+'>');
-  $('#pic-modal .modal-dialog').width($('#pic-modal .modal-body img')[0].width + 33);
+  $('#pic-modal .modal-dialog').width($('#pic-modal .modal-body img')[0].width + 33).css('min-width', 425);
   $('#pic-modal').modal('show');
 });
 
@@ -97,6 +101,8 @@ $('#dislike_button').click(function(data){
       action: 0
     },
     success: function(e) {
+      if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').length) 
+        $('#like_count').text(+$('#like_count').text() - 1);
       $('#dislike_button').addClass('marked');
       $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').remove()
     },
@@ -115,10 +121,14 @@ $('#dislike_button').click(function(data){
         num: $('#modal-img').attr('data-id'),
       },
       success: function(){
-        if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite') == 1)
+        if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite') == 1){
+          $('#favorite_count').text(+$('#favorite_count').text() - 1);
           $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 0);
-        else
-        $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 1);
+        }
+        else{
+          $('#favorite_count').text(+$('#favorite_count').text() + 1);
+          $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 1);
+        }
 
         if(!$('#favorite_button').hasClass('marked')){
           $('#favorite_button').text('В избранном').addClass('marked');
@@ -144,14 +154,17 @@ Modal::begin([
               Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 50%; height: 100%; font-size: medium;']) . 
               Html::button('В избранное', ['class' => 'favorite_button', 'id' => 'favorite_button', 'data-action' => 0, 'style' => 'outline: none; width: calc(50% - 10px); margin-left: 10px; height: 100%; font-size: medium;']),
   'options' => [
-    'id' => 'pic-modal'
+    'id' => 'pic-modal',
+    'style' => [
+      'text-align' => 'center'
+    ]
   ],
   'size' => Modal::SIZE_DEFAULT
 ]);
 echo 'test';
 Modal::end();
 
-echo "<p class='text_center'><a href='?r=profile/likes' class='link  you_here'>Лайкнутые посты (" . Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a> | <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном (" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . ")</a></p>";
+echo "<div class='text_center'><a href='?r=profile/likes' class='link you_here'>Лайкнутые посты (<div id='like_count'>" . Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> | <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (<div id='dislike_count'>" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном (<div id='favorite_count'>" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a></div>";
 
 foreach ($models as $model) {
   echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' data-id='$model->post_id' data-favorite='".($model->favorite ?? 0)."' class='show_img ".($model->favorite ?'favorite' : '')."'>";
