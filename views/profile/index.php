@@ -6,10 +6,7 @@
  * будет позволять совершать над ними различные действия
  */
 
-use yii\widgets\LinkPager;
-use yii\bootstrap\Modal;
 use yii\web\View;
-use yii\bootstrap\Html;
 use app\models\db\Post;
 
 $this->registerCss("
