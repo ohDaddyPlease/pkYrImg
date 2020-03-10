@@ -82,6 +82,7 @@ $this->registerJs(
         action: data.target.dataset.action
       },
       success: function(e) {
+        $('#favorite_button').text('В избранное').removeClass('marked');
         e = JSON.parse(e);
         $('#img_id').attr('src', e['img']);
         $('#img_id').attr('alt', e['safe_title']);
