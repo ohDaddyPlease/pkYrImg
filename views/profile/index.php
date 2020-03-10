@@ -26,4 +26,4 @@ View::POS_READY
 );
 ?>
 
-Пс-с-с, пользователь с логином <?= Yii::$app->user->identity->login; ?>, а ты знаешь, что у тебя <a href='?r=profile/likes' class='link'> лайкнутых</a> постов <?= Post::find()->where(['action' => 1])->count(); ?>, <a href='?r=profile/dislikes' class='link'> дизлайкнутых</a> <?= Post::find()->where(['action' => 0])->count(); ?> и постов <a href='?r=profile/favorites' class='link'>в избранном</a> <?= Post::find()->where(['favorite' => 1])->count(); ?> ?
+Пс-с-с, пользователь с логином <?= Yii::$app->user->identity->login; ?>, а ты знаешь, что у тебя <a href='?r=profile/likes' class='link'> лайкнутых</a> постов <?= Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count(); ?>, <a href='?r=profile/dislikes' class='link'> дизлайкнутых</a> <?= Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count(); ?> и постов <a href='?r=profile/favorites' class='link'>в избранном</a> <?= Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count(); ?> ?
