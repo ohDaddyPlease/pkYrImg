@@ -44,7 +44,7 @@ class ProfileController extends Controller
     public function init()
     {
         $this->isUserGuest  = Yii::$app->user->isGuest;
-        $this->systemUserId = Yii::$app->user->identity->id;
+        $this->systemUserId = Yii::$app->user->id;
     }
 
     public function actionIndex()

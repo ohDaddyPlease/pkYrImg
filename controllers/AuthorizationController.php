@@ -55,7 +55,7 @@ class AuthorizationController extends Controller
             $postRequest['password'],
             $user->password
         );
-        if (isset($user)  && $isPasswordValid)
+        if ($user  && $isPasswordValid)
         {
             $this->systemUser->login($user);
             return true;

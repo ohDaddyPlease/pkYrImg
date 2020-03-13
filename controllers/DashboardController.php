@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $this->request      = Yii::$app->request;
         $this->systemUser   = Yii::$app->user;
         $this->isUserGuest  = Yii::$app->user->isGuest;
-        $this->systemUserId = Yii::$app->user->identity->id;
+        $this->systemUserId = Yii::$app->user->id;
     }
 
     public function actionIndex()

@@ -9,14 +9,16 @@
 use yii\web\View;
 use app\models\db\Post;
 
-$this->registerCss("
+$CSS = <<<CSS
 .link{
   border: 1px solid;
   border-radius: 10px;
   padding: 3px;
   text-decoration: none !important;
 }
-");
+CSS;
+
+$this->registerCss($CSS);
 
 $this->registerJs("",
 View::POS_READY

@@ -1,5 +1,4 @@
 <?php
-
 namespace app\models\db;
 
 use yii\db\ActiveRecord;
@@ -9,8 +8,8 @@ use yii\db\ActiveRecord;
  */
 class Post extends ActiveRecord
 {
-  public static function tableName()
-  {
-    return 'post';
-  }
+    public static function tableName()
+    {
+        return 'post';
+    }
 }

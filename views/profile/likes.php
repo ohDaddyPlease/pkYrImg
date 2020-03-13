@@ -161,7 +161,6 @@ Modal::begin([
   ],
   'size' => Modal::SIZE_DEFAULT
 ]);
-echo 'test';
 Modal::end();
 
 echo "<div class='text_center'><a href='?r=profile/likes' class='link you_here'>Лайкнутые посты (<div id='like_count'>" . Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> | <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (<div id='dislike_count'>" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> | <a href='?r=profile/favorites' class='link'>Посты в избранном (<div id='favorite_count'>" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a></div>";

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Данный лэйаут позволяет регистрироваться/входить/выходить на любых страницах
  * за счет настроенной системы авторизации в данном вью
@@ -29,10 +28,9 @@ AppAsset::register($this);
  * в ином случае выдаёт ошибку входа
  * Note: работает без перезагрузки страницы
  */
-$this->registerJs("
+$JS = <<<JS
     $('#login-submit').click(function(e){
       e.preventDefault();
-
       $.ajax({
         url: '?r=authorization/login',
         method: 'POST',
@@ -43,8 +41,8 @@ $this->registerJs("
           }else{
             $($('#login-form .help-block')[0]).text('Возможно, неправильный логин!');
             $($('#login-form .help-block')[1]).text('Возможно, неправильный пароль!');
-        
-            if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
+            if(!$($('#login-form .help-block')[0]).parent().hasClass('has-error') 
+              || !$($('#login-form .help-block')[1]).parent().hasClass('has-error'))
             {
               $($('#login-form .help-block')[0]).parent().addClass('has-error');
               $($('#login-form .help-block')[1]).parent().addClass('has-error');
@@ -59,7 +57,6 @@ $this->registerJs("
 
     $('#register-submit').click(function(e){
       e.preventDefault();
-
       $.ajax({
         url: '?r=authorization/registration',
         method: 'POST',
@@ -70,8 +67,8 @@ $this->registerJs("
           }else{
             $($('#register-form .help-block')[0]).text('Такой пользователь существует!');
             $($('#register-form .help-block')[1]).text('');
-        
-            if(!$($('#register-form .help-block')[0]).parent().hasClass('has-error') || !$($('#register-form .help-block')[1]).parent().hasClass('has-error'))
+            if(!$($('#register-form .help-block')[0]).parent().hasClass('has-error') 
+              || !$($('#register-form .help-block')[1]).parent().hasClass('has-error'))
             {
               $($('#register-form .help-block')[0]).parent().addClass('has-error');
               $($('#register-form .help-block')[1]).parent().addClass('has-error');
@@ -84,12 +81,15 @@ $this->registerJs("
         }
       });
     });
-",
-  View::POS_READY,
-  'loggin-script'
-);
+JS;
 
+$this->registerJs(
+    $JS,
+    View::POS_READY,
+    'loggin-script'
+);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -102,86 +102,112 @@ $this->registerJs("
     <?php $this->head() ?>
 </head>
 <body>
-<?php $this->beginBody();
+<?php $this->beginBody(); ?>
 
-$postRequest = Yii::$app->request->post();
+<?php
+    $postRequest = Yii::$app->request->post();
 
-  /**
-   * Работа с формой входа
-   * Если в параметрах GET есть login=failed, будет произведена валидация для выдачи ошибки
-   * (знаю, что корявый велосипед)
-   */
-  $loginFormModel = new LoginForm;
-  if(Yii::$app->request->get('login') == 'failed') {
-    $loginFormModel->validate('loginFailed');
-  }
-
-  Modal::begin([
-    'header' => 'Вход в учётную запись',
-    'options' => ['id' => 'login'],
-  ]);
-    $loginForm = ActiveForm::begin([
-      'id' => 'login-form'
+    /**
+     * Работа с формой входа
+     * Передает заполненные поля по роуту authorization/login
+     */
+    $loginFormModel = new LoginForm;
+    Modal::begin([
+        'header'  => 'Вход в учётную запись',
+        'options' => [
+            'id' => 'login'
+        ],
     ]);
-    echo $loginForm->field($loginFormModel, 'login')->label('Имя пользователя (логин)');
-    echo $loginForm->field($loginFormModel, 'password')->input('password')->label('Пароль');
-    echo Html::submitButton('Войти', ['id'=>'login-submit']);
-    ActiveForm::end();
-  Modal::end();
+        $loginForm = ActiveForm::begin([
+            'id' => 'login-form'
+        ]);
+            echo $loginForm->field($loginFormModel, 'login')
+                           ->label('Имя пользователя (логин)');
+            echo $loginForm->field($loginFormModel, 'password')
+                           ->input('password')
+                           ->label('Пароль');
+            echo Html::submitButton('Войти', [
+                'id'=>'login-submit'
+            ]);
+        ActiveForm::end();
+    Modal::end();
 
-  /**
-   * Работа с формой регистрации
-   * Передает заполненные поля по роуту authorization/registration
-   */
-  $registerFormModel = new RegisterForm;
-  Modal::begin([
-    'header' => 'Регистрация учётной записи',
-    'options' => ['id' => 'register'],
-  ]);
-    $registerForm = ActiveForm::begin([
-      'id' => 'register-form'
+    /**
+     * Работа с формой регистрации
+     * Передает заполненные поля по роуту authorization/registration
+     */
+    $registerFormModel = new RegisterForm;
+    Modal::begin([
+        'header'  => 'Регистрация учётной записи',
+        'options' => [
+            'id' => 'register'
+        ],
     ]);
-    echo $registerForm->field($registerFormModel, 'login')->label('Имя пользователя (логин)');
-    echo $registerForm->field($registerFormModel, 'password')->input('password')->label('Пароль');
-    echo Html::submitButton('Зарегистрироваться', ['id'=>'register-submit']);
-    ActiveForm::end();
-  Modal::end();
-
-
+        $registerForm = ActiveForm::begin([
+            'id' => 'register-form'
+        ]);
+            echo $registerForm->field($registerFormModel, 'login')
+                              ->label('Имя пользователя (логин)');
+            echo $registerForm->field($registerFormModel, 'password')
+                              ->input('password')
+                              ->label('Пароль');
+            echo Html::submitButton('Зарегистрироваться', [
+                'id'=>'register-submit'
+            ]);
+        ActiveForm::end();
+    Modal::end();
 ?>
 
 <div class="wrap">
-    <?php
+<?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
+        'brandUrl'   => Yii::$app->homeUrl,
+        'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    if(Yii::$app->user->isGuest)
-      echo Nav::widget([
-          'options' => ['class' => 'navbar-nav navbar-right'],
-          'items' => [
-              ['label' => 'Вход', 'url' => '#login', 'linkOptions' => ['data-toggle'=>'modal']],
-              ['label' => 'Зарегистрироваться', 'url' => '#register', 'linkOptions' => ['data-toggle'=>'modal']]
-
-
-          ],
-      ]);
-    else 
-    echo Nav::widget([
-      'options' => ['class' => 'navbar-nav navbar-right'],
-      'items' => [
-          ['label' => Yii::$app->user->identity->login, 'url' => '?r=profile'],
-          ['label' => 'Выйти', 'url' => '?r=authorization/logout']
-
-
-      ],
-  ]);
+    if (Yii::$app->user->isGuest) {
+        echo Nav::widget([
+            'options' => [
+                'class' => 'navbar-nav navbar-right'
+            ],
+            'items'   => [
+                [
+                    'label'       => 'Вход',
+                    'url'         => '#login',
+                    'linkOptions' => [
+                        'data-toggle'=>'modal'
+                    ]
+                ],
+                [
+                    'label'       => 'Зарегистрироваться',
+                    'url'         => '#register',
+                    'linkOptions' => [
+                        'data-toggle'=>'modal'
+                    ]
+                ]
+            ],
+        ]);
+    } else {
+        echo Nav::widget([
+            'options' => [
+                'class' => 'navbar-nav navbar-right'
+            ],
+            'items'   => [
+                [
+                    'label' => Yii::$app->user->identity->login,
+                    'url'   => '?r=profile'
+                ],
+                [
+                    'label' => 'Выйти',
+                    'url'   => '?r=authorization/logout'
+                ]
+            ],
+        ]);
+    }
     NavBar::end();
-    
-    ?>
+?>
 
     <div class="container">
         <?= Breadcrumbs::widget([
