@@ -78,8 +78,9 @@ $this->registerJs("
             }
           }
         },
-        error: function(){
-          console.log('[Форма регистрации] Что-то пошло не так...')
+        error: function(e){
+          console.log('[Форма регистрации] Что-то пошло не так...');
+          console.error(e);
         }
       });
     });

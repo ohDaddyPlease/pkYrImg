@@ -28,10 +28,28 @@ class ProfileController extends Controller
      */
     const IS_FAVORITE = 1;
 
+    /**
+     * @var Bool переменная для хранения состояния (bool) посетителя (гость/пользователь)
+     */
+    public $isUserGuest;
+
+    /**
+     * @var Integer переменная для хранения ID пользователя
+     */
+    public $systemUserId;
+
+    /**
+     * Инициализация объекта (донастройка/конфигурирование)
+     */
+    public function init()
+    {
+        $this->isUserGuest  = Yii::$app->user->isGuest;
+        $this->systemUserId = Yii::$app->user->identity->id;
+    }
+
     public function actionIndex()
     {
-        $user = Yii::$app->user;
-        if ($user->isGuest) {
+        if ($this->isUserGuest) {
             return $this->goHome();
         }
 
@@ -39,10 +57,18 @@ class ProfileController extends Controller
          * Получение всех лайкнутых постов и создание пагинации
          */
         $posts  = Post::find()->where([
-            'user_id' => $user->identity->id,
+            'user_id' => $this->systemUserId,
             'action'  => self::LIKE
         ]);
+
+        /**
+         * Создание объекта пагинации
+         */
         $pages  = new Pagination(['totalCount' => $posts->count()]);
+
+        /**
+         * Выдача записей из БД с учетом смещения и лимита пагинации
+         */
         $models = $posts->offset($pages->offset)
                         ->limit($pages->limit)
                         ->all();
@@ -54,8 +80,7 @@ class ProfileController extends Controller
 
     public function actionLikes()
     {
-        $user = Yii::$app->user;
-        if ($user->isGuest) {
+        if ($this->isUserGuest) {
             return $this->goHome();
         }
 
@@ -63,10 +88,18 @@ class ProfileController extends Controller
          * Получение всех лайкнутых постов и создание пагинации
          */
         $posts  = Post::find()->where([
-            'user_id' => $user->identity->id,
+            'user_id' => $this->systemUserId,
             'action'  => self::LIKE
         ]);
+
+        /**
+         * Создание объекта пагинации
+         */
         $pages  = new Pagination(['totalCount' => $posts->count()]);
+
+        /**
+         * Выдача записей из БД с учетом смещения и лимита пагинации
+         */
         $models = $posts->offset($pages->offset)
                         ->limit($pages->limit)
                         ->all();
@@ -78,8 +111,7 @@ class ProfileController extends Controller
 
     public function actionDislikes()
     {
-        $user = Yii::$app->user;
-        if ($user->isGuest) {
+        if ($this->isUserGuest) {
             return $this->goHome();
         }
 
@@ -87,10 +119,18 @@ class ProfileController extends Controller
          * Получение всех лайкнутых постов и создание пагинации
          */
         $posts  = Post::find()->where([
-            'user_id' => $user->identity->id,
+            'user_id' => $this->systemUserId,
             'action'  => self::DISLIKE
         ]);
+
+        /**
+         * Создание объекта пагинации
+         */
         $pages  = new Pagination(['totalCount' => $posts->count()]);
+
+        /**
+         * Выдача записей из БД с учетом смещения и лимита пагинации
+         */
         $models = $posts->offset($pages->offset)
                         ->limit($pages->limit)
                         ->all();
@@ -102,8 +142,7 @@ class ProfileController extends Controller
 
     public function actionFavorites()
     {
-        $user = Yii::$app->user;
-        if ($user->isGuest) {
+        if ($this->isUserGuest) {
             return $this->goHome();
         }
 
@@ -111,10 +150,18 @@ class ProfileController extends Controller
          * Получение всех лайкнутых постов и создание пагинации
          */
         $posts = Post::find()->where([
-            'user_id'  => $user->identity->id,
+            'user_id'  => $this->systemUserId,
             'favorite' => self::IS_FAVORITE
         ]);
+
+        /**
+         * Создание объекта пагинации
+         */
         $pages  = new Pagination(['totalCount' => $posts->count()]);
+
+        /**
+         * Выдача записей из БД с учетом смещения и лимита пагинации
+         */
         $models = $posts->offset($pages->offset)
                         ->limit($pages->limit)
                         ->all();

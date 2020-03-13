@@ -31,6 +31,37 @@ class DashboardController extends Controller
      */
     const ALTERNATIVE_TITLE = 'Pick Your Image';
 
+    /**
+     * @var \yii\web\Request переменная для хранения объекта request
+     */
+    public $request;
+
+    /**
+     * @var User переменная для хранения объекта user
+     */
+    public $systemUser;
+
+    /**
+     * @var Bool переменная для хранения состояния (bool) посетителя (гость/пользователь)
+     */
+    public $isUserGuest;
+
+    /**
+     * @var Integer переменная для хранения ID пользователя
+     */
+    public $systemUserId;
+
+    /**
+     * Инициализация объекта (донастройка/конфигурирование)
+     */
+    public function init()
+    {
+        $this->request      = Yii::$app->request;
+        $this->systemUser   = Yii::$app->user;
+        $this->isUserGuest  = Yii::$app->user->isGuest;
+        $this->systemUserId = Yii::$app->user->identity->id;
+    }
+
     public function actionIndex()
     {
         /**
@@ -54,30 +85,33 @@ class DashboardController extends Controller
      */
     public function actionLikeDislike()
     {
-        $request = Yii::$app->request;
-        $user    = Yii::$app->user;
-
-        if ($user->isGuest || (! $user->isGuest && ! $request->post())) {
+        if ($this->isUserGuest
+            || (!$this->isUserGuest && !$this->request->post())
+        ) {
             return false;
         }
 
         /**
-         * Получение (поиск) данных о посте (картинке) в БД
+         * Получение (поиск) данных о посте (картинке) из БД
          */
         $post = Post::findOne([
-            'post_id' => $request->post('num'),
-            'user_id' => $user->identity->id
+            'post_id' => $this->request->post('num'),
+            'user_id' => $this->systemUserId
         ]);
         if ($post !== null) {
-            $post->action = $request->post('action');
+            $post->action = $this->request->post('action');
             $post->save();
             return json_encode(Yii::$app->picker->pick());
         }
-        $post = new Post;
-        $post->user_id = $user->identity->id;
-        $post->post_id = $request->post('num');
-        $post->action  = $request->post('action');
-        $post->img     = $request->post('img');
+
+        /**
+         * Созздание нового поста, если таковой не был найден
+         */
+        $post          = new Post;
+        $post->user_id = $this->systemUserId;
+        $post->post_id = $this->request->post('num');
+        $post->action  = $this->request->post('action');
+        $post->img     = $this->request->post('img');
         $post->save();
         return json_encode(Yii::$app->picker->pick());
   }
@@ -89,9 +123,9 @@ class DashboardController extends Controller
      */
     public function actionAddToFavorite()
     {
-        $request = Yii::$app->request;
-        $user    = Yii::$app->user;
-        if ($user->isGuest || (! $user->isGuest && ! $request->post())) {
+        if ($this->isUserGuest
+            || (!$this->isUserGuest && !$this->request->post())
+        ) {
             return false;
         }
 
@@ -99,8 +133,8 @@ class DashboardController extends Controller
          * Получение (поиск) данных о посте (картинке) в БД
          */
         $favorite = Post::findOne([
-            'post_id' => $request->post('num'),
-            'user_id' => $user->identity->id
+            'post_id' => $this->request->post('num'),
+            'user_id' => $this->systemUserId
         ]);
 
         /**
@@ -116,10 +150,14 @@ class DashboardController extends Controller
             $favorite->save();
             return true;
         }
-        $favorite = new Post;
-        $favorite->user_id  = $user->identity->id;
-        $favorite->post_id  = $request->post('num');
-        $favorite->img      = $request->post('img');
+
+        /**
+         * Созздание нового поста, если таковой не был найден
+         */
+        $favorite           = new Post;
+        $favorite->user_id  = $this->systemUserId;
+        $favorite->post_id  = $this->request->post('num');
+        $favorite->img      = $this->request->post('img');
         $favorite->favorite = self::ADD_TO_FAVORITE;
         $favorite->save();
   }

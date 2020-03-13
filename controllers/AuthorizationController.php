@@ -12,6 +12,25 @@ use app\models\db\User;
 class AuthorizationController extends Controller
 {
     /**
+     * @var \yii\web\Request переменная для хранения объекта request
+     */
+    public $request;
+
+    /**
+     * @var User переменная для хранения объекта user
+     */
+    public $systemUser;
+
+    /**
+     * Инициализация объекта (донастройка/конфигурирование)
+     */
+    public function init()
+    {
+        $this->request    = Yii::$app->request;
+        $this->systemUser = Yii::$app->user;
+    }
+
+    /**
      * Действие входа
      * Производит вход в систему
      *
@@ -19,24 +38,26 @@ class AuthorizationController extends Controller
      */
     public function actionLogin()
     {
-        $request = Yii::$app->request;
-        if (! $request->post()) {
+        if (!$this->request->post()) {
             return $this->goHome();
         }
 
         /**
          * Получение данных из формы входа
          */
-        $postRequest = $request->post('LoginForm');
+        $postRequest = $this->request->post('LoginForm');
 
         /**
          * Поиск пользователя в таблице БД
          */
-        $user = User::findOne(['login' => $postRequest['login']]);
-        $isPasswordValid = Yii::$app->security->validatePassword($postRequest['password'], $user->password);
-        if ($user  && $isPasswordValid)
+        $user            = User::findOne(['login' => $postRequest['login']]);
+        $isPasswordValid = Yii::$app->security->validatePassword(
+            $postRequest['password'],
+            $user->password
+        );
+        if (isset($user)  && $isPasswordValid)
         {
-            Yii::$app->user->login($user);
+            $this->systemUser->login($user);
             return true;
         } else {
             return false;
@@ -53,21 +74,24 @@ class AuthorizationController extends Controller
      */
     public function actionRegistration()
     {
-        $request = Yii::$app->request;
-        if (! $request->post()) {
+        if (!$this->request->post()) {
             return $this->goHome();
         }
 
         /**
          * Получение данных из формы регистрации
          */
-        $postRequest    = $request->post('RegisterForm');
+        $postRequest    = $this->request->post('RegisterForm');
+
+        /**
+         * Создание экземпляра объекта для занесения новой  записи о пользователе в БД
+         */
         $user           = new User();
         $user->login    = $postRequest['login'];
         $user->password = Yii::$app->security->generatePasswordHash($postRequest['password']);
         if ($user->validate()) {
             $user->save();
-            Yii::$app->user->login($user);
+            $this->systemUser->login($user);
             return true;
         } else {
             return false;
@@ -83,7 +107,7 @@ class AuthorizationController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        $this->systemUser->logout();
         return $this->goHome();
     }
 

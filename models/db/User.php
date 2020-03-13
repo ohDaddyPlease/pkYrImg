@@ -12,6 +12,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    const LOGIN_FIELD    = 'login';
+    const PASSWORD_FIELD = 'password';
+
   public static function tableName()
   {
     return 'user';

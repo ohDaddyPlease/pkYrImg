@@ -26,7 +26,7 @@ class Picker extends Component
         /**
          * Рандомная выдача числа от 1 до номера последнего выпуска
          */
-        if (! $num) {
+        if (!$num) {
             $num = rand(1, self::LATEST_POST);
         }
         $curl = curl_init("https://xkcd.com/{$num}/info.0.json");
