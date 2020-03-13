@@ -199,7 +199,6 @@ if (Yii::$app->user->isGuest) {
           });
         });
 JS;
-
 } else {
     $JS = <<<JS
         let interval = setInterval(function(){
