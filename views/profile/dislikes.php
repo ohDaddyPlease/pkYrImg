@@ -1,9 +1,4 @@
 <?php
-/**
- * Данное вью в разработке
- * В будущем будет отображать лайкнутые/дизлайкнутые посты и
- * будет позволять совершать над ними различные действия
- */
 
 use yii\widgets\LinkPager;
 use yii\bootstrap\Modal;
@@ -187,7 +182,10 @@ Modal::begin([
 ]);
 Modal::end();
 
-$likes = Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count();
+$likes = Post::find()->where([
+    'action' => 1,
+    'user_id' => Yii::$app->user->identity->id
+])->count();
 
 echo "<div class='text_center'>
 <a href='?r=profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>" .  . "</div>)</a> 

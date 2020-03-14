@@ -229,10 +229,20 @@ $this->registerJs(
 
   <h1 id="title"><?= Html::encode($title);?></h1>
 
-  <?= Html::img(Html::encode($img), ['alt' => Html::encode($title), 'id' => 'img_id', 'data-num' => $num]); ?>
+  <?= Html::img(Html::encode($img), [
+          'alt'      => Html::encode($title),
+          'id'       => 'img_id',
+          'data-num' => $num
+      ]);
+  ?>
 
   <div id="controls">
-    <?= Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1]); ?>
+    <?= Html::button('Нравится', [
+            'class'       => 'like_button',
+            'id'          => 'like_button',
+            'data-action' => 1
+    ]); ?>
+
     <?= Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0]); ?>
     <?= Html::button('В избранное', ['class' => 'favorite_button', 'id' => 'favorite_button', 'data-action' => 0]); ?>
     <p id="need_auth">Вы не авторизованы!<br><a  class='auth_btn' href='#login' data-toggle='modal'>Войдите</a> в аккаунт или <a class='auth_btn' href='#register' data-toggle='modal'>зарегистрируйте</a> новый.</p>
