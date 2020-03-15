@@ -183,7 +183,7 @@ Modal::begin([
 Modal::end();
 
 $likes = Post::find()->where([
-    'action' => 1,
+    'action'  => 1,
     'user_id' => Yii::$app->user->identity->id
 ])->count();
 
