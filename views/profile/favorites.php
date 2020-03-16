@@ -12,7 +12,27 @@ use yii\web\View;
 use yii\bootstrap\Html;
 use app\models\db\Post;
 
-$this->registerCss("
+/**
+ * Лайк
+ */
+const LIKE = 1;
+
+/**
+ * Дизлайк
+ */
+const DISLIKE = 0;
+
+/**
+ * В избранном
+ */
+const IN_FAVORITE = 1;
+
+/**
+ * Не в избранном
+ */
+const NOT_IN_FAVORITE = 0;
+
+$CSS = <<<CSS
   .show_img{
     height: 100px; 
     margin: 10px;
@@ -81,9 +101,33 @@ $this->registerCss("
   #like_count, #dislike_count, #favorite_count{
     display: inline-block;
   }
-");
 
-$this->registerJs("
+  #like_button{
+  outline: none; 
+  width: calc(33% - 10px); 
+  margin-right: 10px; 
+  height: 100%; 
+  font-size: medium;
+  }
+
+  #dislike_button{
+  outline: none; 
+  width: 33%; 
+  height: 100%; 
+  font-size: medium;
+  }
+
+  #favorite_button{
+  outline: none; 
+  width: calc(33% - 10px); 
+  margin-left: 10px; 
+  height: 100%; 
+  font-size: medium;
+  }
+CSS;
+$this->registerCss($CSS);
+
+$JS = <<<JS
 $('.show_img').click(function(){
   $('#favorite_button').text('В избранном').addClass('marked');
   if($(this).data('action') === 1){
@@ -167,35 +211,72 @@ $('#dislike_button').click(function(data){
         }
       });
     });
-",
+JS;
+$this->registerJs($JS,
 View::POS_READY
 );
 
 Modal::begin([
   'header' => false,
   'footer' => 
-              Html::button('Нравится', ['class' => 'like_button', 'id' => 'like_button', 'data-action' => 1, 'style' => 'outline: none; width: calc(33% - 10px); margin-right: 10px; height: 100%; font-size: medium;']) . 
-              Html::button('Не нравится', ['class' => 'dislike_button', 'id' => 'dislike_button', 'data-action' => 0, 'style' => 'outline: none; width: 33%; height: 100%; font-size: medium;']) . 
-              Html::button('В избранном', ['class' => 'favorite_button marked', 'id' => 'favorite_button', 'data-action' => 0, 'style' => 'outline: none; width: calc(33% - 10px); margin-left: 10px; height: 100%; font-size: medium;']),
+      Html::button('Нравится', [
+          'class'       => 'like_button',
+          'id'          => 'like_button',
+          'data-action' => LIKE
+      ]) .
+      Html::button('Не нравится', [
+          'class'       => 'dislike_button',
+          'id'          => 'dislike_button',
+          'data-action' => DISLIKE
+      ]) .
+      Html::button('В избранном', [
+          'class'       => 'favorite_button marked',
+          'id'          => 'favorite_button',
+          'data-action' => IN_FAVORITE
+      ]),
   'options' => [
-    'id' => 'pic-modal',
-    'style' => [
-      'text-align' => 'center'
-    ]
+      'id'    => 'pic-modal',
+      'style' => [
+          'text-align' => 'center'
+      ]
   ],
-  'size' => Modal::SIZE_DEFAULT
+  'size'    => Modal::SIZE_DEFAULT
 ]);
 Modal::end();
 
-echo "<div class='text_center'><a href='?r=profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>" . Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> | <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (<div id='dislike_count'>" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> | <a href='?r=profile/favorites' class='link you_here'>Посты в избранном (<div id='favorite_count'>" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a></div>";
+$likesCount = Post::find()->where([
+    'action'  => LIKE,
+    'user_id' => Yii::$app->user->identity->id
+])->count();
+
+$dislikesCount = Post::find()->where([
+    'action'  => DISLIKE,
+    'user_id' => Yii::$app->user->identity->id
+])->count();
+
+$favoriteCount = Post::find()->where([
+    'favorite' => IN_FAVORITE,
+    'user_id'  => Yii::$app->user->identity->id
+])->count();
+
+echo "<div class='text_center'>
+  <a href='?r=profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>$likesCount</div>)</a> 
+
+| <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (<div id='dislike_count'>$dislikesCount</div>)</a> 
+
+| <a href='?r=profile/favorites' class='link you_here'>Посты в избранном (<div id='favorite_count'>$favoriteCount</div>)</a></div>";
 
 foreach ($models as $model) {
-  echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' data-id='$model->post_id' data-favorite='".($model->favorite ?? 0)."' data-action='$model->action' class='show_img'>";
+    echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' 
+               data-id='$model->post_id' 
+               data-favorite='".($model->favorite ?? NOT_IN_FAVORITE)."' 
+               data-action='$model->action' 
+               class='show_img'>";
 }
 
 echo "<br>" . LinkPager::widget([
-  'pagination' => $pages,
-  'id' => 'pagination'
+    'pagination' => $pages,
+    'id'         => 'pagination'
 ]);
 
 ?>

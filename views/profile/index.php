@@ -9,6 +9,21 @@
 use yii\web\View;
 use app\models\db\Post;
 
+/**
+ * Лайк
+ */
+const LIKE = 1;
+
+/**
+ * Дизлайк
+ */
+const DISLIKE = 0;
+
+/**
+ * В избранном
+ */
+const IN_FAVORITE = 1;
+
 $CSS = <<<CSS
 .link{
   border: 1px solid;
@@ -17,12 +32,34 @@ $CSS = <<<CSS
   text-decoration: none !important;
 }
 CSS;
-
 $this->registerCss($CSS);
 
 $this->registerJs("",
 View::POS_READY
 );
+
+/**
+ * Имя пользователя
+ */
+$userLogin = Yii::$app->user->identity->login;
+
+/**
+ * Количество лайкнутых постов
+ */
+$likesCount = Post::find()->where(['action' => LIKE, 'user_id' => Yii::$app->user->identity->id])->count();
+
+/**
+ * Количество дизлайкнутых постов
+ */
+$dislikesCount = Post::find()->where(['action' => DISLIKE, 'user_id' => Yii::$app->user->identity->id])->count();
+
+/**
+ * Количество постов в избранном
+ */
+$favoriteCount = Post::find()->where(['favorite' => IN_FAVORITE, 'user_id' => Yii::$app->user->identity->id])->count();
 ?>
 
-Пс-с-с, пользователь с логином <?= Yii::$app->user->identity->login; ?>, а ты знаешь, что у тебя <a href='?r=profile/likes' class='link'> лайкнутых</a> постов <?= Post::find()->where(['action' => 1, 'user_id' => Yii::$app->user->identity->id])->count(); ?>, <a href='?r=profile/dislikes' class='link'> дизлайкнутых</a> <?= Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count(); ?> и постов <a href='?r=profile/favorites' class='link'>в избранном</a> <?= Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count(); ?> ?
+<p>Пс-с-с, пользователь с логином <?= $userLogin; ?>, а ты знаешь, что у тебя
+    <a href='?r=profile/likes' class='link'> лайкнутых</a> постов <?= $likesCount; ?>,
+    <a href='?r=profile/dislikes' class='link'> дизлайкнутых</a> <?= $dislikesCount; ?>
+    и постов <a href='?r=profile/favorites' class='link'>в избранном</a> <?= $favoriteCount; ?> ? </p>

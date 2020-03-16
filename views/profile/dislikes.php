@@ -6,6 +6,26 @@ use yii\web\View;
 use yii\bootstrap\Html;
 use app\models\db\Post;
 
+/**
+ * Лайк
+ */
+const LIKE = 1;
+
+/**
+ * Дизлайк
+ */
+const DISLIKE = 0;
+
+/**
+ * В избранном
+ */
+const IN_FAVORITE = 1;
+
+/**
+ * Не в избранном
+ */
+const NOT_IN_FAVORITE = 0;
+
 $CSS = <<<CSS
   .show_img{
     height: 100px; 
@@ -81,79 +101,77 @@ $CSS = <<<CSS
     font-size: medium;
   }
 CSS;
-
 $this->registerCss($CSS);
 
 $JS = <<<JS
-    $('.show_img').click(function(){
-      $('#like_button').removeClass('marked');
-      if($(this).data('favorite')){
+$('.show_img').click(function(){
+  $('#like_button').removeClass('marked');
+  if($(this).data('favorite')){
+    $('#favorite_button').text('В избранном').addClass('marked');
+  }else{
+    $('#favorite_button').text('В избранное').removeClass('marked');
+    $('#dislike_button').removeClass('marked');
+  }
+
+  $('#pic-modal .modal-body').html('<img id=\'modal-img\' src=\''+$(this).attr('src')+ '\' data-id='+$(this).data('id')+'>');
+  $('#pic-modal .modal-dialog').width($('#pic-modal .modal-body img')[0].width + 33).css('min-width', 425);
+  $('#pic-modal').modal('show');
+});
+
+$('#like_button').click(function(data){
+  $.ajax({
+    url: '?r=dashboard/like-dislike',
+    type: 'POST',
+    data: {
+      num: $('#modal-img').attr('data-id'),
+      img: $('#modal-img').attr('src'),
+      action: 1
+    },
+    success: function(e) {
+      if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').length) 
+        $('#dislike_count').text(+$('#dislike_count').text() - 1);
+      $('#like_button').addClass('marked');
+      $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').remove();
+    },
+    error: function(e) {
+      console.log('[Кнопки лайка/дизлайка] Что-то пошло не так...');
+      console.error(e);
+    }
+  });
+});
+
+$('#favorite_button').click(function(){
+  $.ajax({
+    url: '?r=dashboard/add-to-favorite',
+    type: 'POST',
+    data: {
+      num: $('#modal-img').attr('data-id'),
+    },
+    success: function(){
+      if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite') == 1){
+        $('#favorite_count').text(+$('#favorite_count').text() - 1);
+        $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 0);
+      }
+      else{
+        $('#favorite_count').text(+$('#favorite_count').text() + 1);
+        $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 1);
+      }
+
+      if(!$('#favorite_button').hasClass('marked')){
         $('#favorite_button').text('В избранном').addClass('marked');
+        $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').addClass('favorite');
       }else{
         $('#favorite_button').text('В избранное').removeClass('marked');
-        $('#dislike_button').removeClass('marked');
+        $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').removeClass('favorite');
       }
-    
-      $('#pic-modal .modal-body').html('<img id=\'modal-img\' src=\''+$(this).attr('src')+ '\' data-id='+$(this).data('id')+'>');
-      $('#pic-modal .modal-dialog').width($('#pic-modal .modal-body img')[0].width + 33).css('min-width', 425);
-      $('#pic-modal').modal('show');
-    });
-    
-    $('#like_button').click(function(data){
-      $.ajax({
-        url: '?r=dashboard/like-dislike',
-        type: 'POST',
-        data: {
-          num: $('#modal-img').attr('data-id'),
-          img: $('#modal-img').attr('src'),
-          action: 1
-        },
-        success: function(e) {
-          if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').length) 
-            $('#dislike_count').text(+$('#dislike_count').text() - 1);
-          $('#like_button').addClass('marked');
-          $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').remove();
-        },
-        error: function(e) {
-          console.log('[Кнопки лайка/дизлайка] Что-то пошло не так...');
-          console.error(e);
-        }
-      });
-    });
-    
-    $('#favorite_button').click(function(){
-      $.ajax({
-        url: '?r=dashboard/add-to-favorite',
-        type: 'POST',
-        data: {
-          num: $('#modal-img').attr('data-id'),
-        },
-        success: function(){
-          if($('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite') == 1){
-            $('#favorite_count').text(+$('#favorite_count').text() - 1);
-            $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 0);
-          }
-          else{
-            $('#favorite_count').text(+$('#favorite_count').text() + 1);
-            $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').data('favorite', 1);
-          }
-    
-          if(!$('#favorite_button').hasClass('marked')){
-            $('#favorite_button').text('В избранном').addClass('marked');
-            $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').addClass('favorite');
-          }else{
-            $('#favorite_button').text('В избранное').removeClass('marked');
-            $('[class*=show_img][data-id=\"'+$('#modal-img').attr('data-id')+'\"]').removeClass('favorite');
-          }
-        },
-        error: function(e){
-          console.log('[Кнопка добавления в избранное] Что-то пошло не так...');
-          console.error(e);
-        }
-      });
-    });
+    },
+    error: function(e){
+      console.log('[Кнопка добавления в избранное] Что-то пошло не так...');
+      console.error(e);
+    }
+  });
+});
 JS;
-
 $this->registerJs(
     $JS,
     View::POS_READY
@@ -165,12 +183,12 @@ Modal::begin([
          Html::button('Нравится', [
              'class'       => 'like_button',
              'id'          => 'like_button',
-             'data-action' => 1
+             'data-action' => LIKE
          ])
          . Html::button('В избранное', [
              'class'       => 'favorite_button',
              'id'          => 'favorite_button',
-             'data-action' => 0
+             'data-action' => IN_FAVORITE
          ]),
     'options' => [
         'id'    => 'pic-modal',
@@ -182,25 +200,38 @@ Modal::begin([
 ]);
 Modal::end();
 
-$likes = Post::find()->where([
-    'action'  => 1,
+$likesCount = Post::find()->where([
+    'action'  => LIKE,
     'user_id' => Yii::$app->user->identity->id
 ])->count();
 
+$dislikesCount = Post::find()->where([
+    'action'  => DISLIKE,
+    'user_id' => Yii::$app->user->identity->id
+])->count();
+
+$favoriteCount = Post::find()->where([
+    'favorite' => IN_FAVORITE,
+    'user_id'  => Yii::$app->user->identity->id
+])->count();
+
 echo "<div class='text_center'>
-<a href='?r=profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>" .  . "</div>)</a> 
+  <a href='?r=profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>$likesCount</div>)</a> 
 
-| <a href='?r=profile/dislikes' class='link you_here'> Дизлайкнутые посты (<div id='dislike_count'>" . Post::find()->where(['action' => 0, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a> 
+| <a href='?r=profile/dislikes' class='link you_here'> Дизлайкнутые посты (<div id='dislike_count'>$dislikesCount</div>)</a> 
 
-| <a href='?r=profile/favorites' class='link'>Посты в избранном (<div id='favorite_count'>" . Post::find()->where(['favorite' => 1, 'user_id' => Yii::$app->user->identity->id])->count() . "</div>)</a></div>";
+| <a href='?r=profile/favorites' class='link'>Посты в избранном (<div id='favorite_count'>$favoriteCount</div>)</a></div>";
 
 foreach ($models as $model) {
-  echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' data-id='$model->post_id' data-favorite='".($model->favorite ?? 0)."' class='show_img ".($model->favorite ?'favorite' : '')."'>";
+    echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' 
+               data-id='$model->post_id' 
+               data-favorite='" . ($model->favorite ?? NOT_IN_FAVORITE) ."' 
+               class='show_img " . ($model->favorite ?'favorite' : '') . "'>";
 }
 
 echo "<br>" . LinkPager::widget([
-  'pagination' => $pages,
-  'id' => 'pagination'
+    'pagination' => $pages,
+    'id'         => 'pagination'
 ]);
 
 ?>
