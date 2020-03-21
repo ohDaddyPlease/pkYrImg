@@ -135,7 +135,7 @@ $this->registerCss($CSS);
  * В ином случае будет подключен скрипт для выдачи ошибки
  */
 
-if (Yii::$app->user->isGuest) {
+if (!Yii::$app->user->isGuest) {
     $JS = <<<JS
         let interval = setInterval(function(){
         if($('#img_id').prop('complete'))
@@ -149,7 +149,7 @@ if (Yii::$app->user->isGuest) {
         '#dislike_button').click(function(data){
         $('#loader').css('display', 'table');
         $.ajax({
-          url: '?r=dashboard/like-dislike',
+          url: '/dashboard/like-dislike',
           type: 'POST',
           data: {
             num: $('#img_id').attr('data-num'),
@@ -179,7 +179,7 @@ if (Yii::$app->user->isGuest) {
         
         $('#favorite_button').click(function(){
           $.ajax({
-            url: '?r=dashboard/add-to-favorite',
+            url: '/dashboard/add-to-favorite',
             type: 'POST',
             data: {
               num: $('#img_id').attr('data-num'),

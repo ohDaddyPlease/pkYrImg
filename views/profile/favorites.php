@@ -149,7 +149,7 @@ $('.show_img').click(function(){
 
 $('#dislike_button').click(function(data){
   $.ajax({
-    url: '?r=dashboard/like-dislike',
+    url: '/dashboard/like-dislike',
     type: 'POST',
     data: {
       num: $('#modal-img').attr('data-id'),
@@ -169,7 +169,7 @@ $('#dislike_button').click(function(data){
 
   $('#like_button').click(function(data){
     $.ajax({
-      url: '?r=dashboard/like-dislike',
+      url: '/dashboard/like-dislike',
       type: 'POST',
       data: {
         num: $('#modal-img').attr('data-id'),
@@ -189,7 +189,7 @@ $('#dislike_button').click(function(data){
 
     $('#favorite_button').click(function(){
       $.ajax({
-        url: '?r=dashboard/add-to-favorite',
+        url: '/dashboard/add-to-favorite',
         type: 'POST',
         data: {
           num: $('#modal-img').attr('data-id')
@@ -260,11 +260,11 @@ $favoriteCount = Post::find()->where([
 ])->count();
 
 echo "<div class='text_center'>
-  <a href='?r=profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>$likesCount</div>)</a> 
+  <a href='/profile/likes' class='link'>Лайкнутые посты (<div id='like_count'>$likesCount</div>)</a> 
 
-| <a href='?r=profile/dislikes' class='link'> Дизлайкнутые посты (<div id='dislike_count'>$dislikesCount</div>)</a> 
+| <a href='/profile/dislikes' class='link'> Дизлайкнутые посты (<div id='dislike_count'>$dislikesCount</div>)</a> 
 
-| <a href='?r=profile/favorites' class='link you_here'>Посты в избранном (<div id='favorite_count'>$favoriteCount</div>)</a></div>";
+| <a href='/profile/favorites' class='link you_here'>Посты в избранном (<div id='favorite_count'>$favoriteCount</div>)</a></div>";
 
 foreach ($models as $model) {
     echo "<img src='".(Html::encode($model->img) ?? 'https://www.bafe.org.uk/imgs/icons/x-mark-256x256-red.png')."' 

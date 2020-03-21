@@ -60,6 +60,6 @@ $favoriteCount = Post::find()->where(['favorite' => IN_FAVORITE, 'user_id' => Yi
 ?>
 
 <p>Пс-с-с, пользователь с логином <?= $userLogin; ?>, а ты знаешь, что у тебя
-    <a href='?r=profile/likes' class='link'> лайкнутых</a> постов <?= $likesCount; ?>,
-    <a href='?r=profile/dislikes' class='link'> дизлайкнутых</a> <?= $dislikesCount; ?>
-    и постов <a href='?r=profile/favorites' class='link'>в избранном</a> <?= $favoriteCount; ?> ? </p>
+    <a href='/profile/likes' class='link'> лайкнутых</a> постов <?= $likesCount; ?>,
+    <a href='/profile/dislikes' class='link'> дизлайкнутых</a> <?= $dislikesCount; ?>
+    и постов <a href='/profile/favorites' class='link'>в избранном</a> <?= $favoriteCount; ?> ? </p>

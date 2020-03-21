@@ -32,7 +32,7 @@ $JS = <<<JS
     $('#login-submit').click(function(e){
       e.preventDefault();
       $.ajax({
-        url: '?r=authorization/login',
+        url: '/login',
         method: 'POST',
         data: $('#login-form').serialize(),
         success: function(data){
@@ -58,7 +58,7 @@ $JS = <<<JS
     $('#register-submit').click(function(e){
       e.preventDefault();
       $.ajax({
-        url: '?r=authorization/registration',
+        url: '/registration',
         method: 'POST',
         data: $('#register-form').serialize(),
         success: function(data){
@@ -197,11 +197,11 @@ $this->registerJs(
             'items'   => [
                 [
                     'label' => Yii::$app->user->identity->login,
-                    'url'   => '?r=profile'
+                    'url'   => '/profile'
                 ],
                 [
                     'label' => 'Выйти',
-                    'url'   => '?r=authorization/logout'
+                    'url'   => '/logout'
                 ]
             ],
         ]);
