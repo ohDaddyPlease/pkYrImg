@@ -50,6 +50,7 @@ $config = [
              */
             'identityClass'   => 'app\models\db\User',
             'enableAutoLogin' => true,
+            'enableSession'   => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -86,7 +87,12 @@ $config = [
                 'login'                     => 'authorization/login',
                 'dashboard/add-to-favorite' => 'dashboard/add-to-favorite',
                 'dashboard/like-dislike'    => 'dashboard/like-dislike',
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user']],
+                [
+                    'class'      => 'yii\rest\UrlRule',
+                    'controller' => [
+                        'v1/user'
+                    ],
+                ],
             ],
         ],
 

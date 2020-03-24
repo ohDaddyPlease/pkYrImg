@@ -18,4 +18,13 @@ class User extends ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return [
+            'id',
+            'login',
+            'role'
+        ];
+    }
+
 }
