@@ -20,6 +20,11 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'v1' => [
+            'class' => 'app\modules\api\modules\v1\Module',
+        ],
+    ],
     'components' => [
 
         /**
@@ -77,7 +82,8 @@ $config = [
                 'registration'              => 'authorization/registration',
                 'login'                     => 'authorization/login',
                 'dashboard/add-to-favorite' => 'dashboard/add-to-favorite',
-                'dashboard/like-dislike'    => 'dashboard/like-dislike'
+                'dashboard/like-dislike'    => 'dashboard/like-dislike',
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user']],
             ],
         ],
 
