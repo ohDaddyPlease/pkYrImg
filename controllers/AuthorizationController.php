@@ -51,11 +51,14 @@ class AuthorizationController extends Controller
          * Поиск пользователя в таблице БД
          */
         $user            = User::findOne(['login' => $postRequest['login']]);
+        if (!$user) {
+            return false;
+        }
         $isPasswordValid = Yii::$app->security->validatePassword(
             $postRequest['password'],
             $user->password
         );
-        if ($user  && $isPasswordValid)
+        if ($isPasswordValid)
         {
             $this->systemUser->login($user);
             return true;

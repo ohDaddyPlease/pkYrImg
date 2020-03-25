@@ -37,7 +37,7 @@ $JS = <<<JS
         data: $('#login-form').serialize(),
         success: function(data){
           if(data){
-          window.location.reload();
+              window.location.reload();
           }else{
             $($('#login-form .help-block')[0]).text('Возможно, неправильный логин!');
             $($('#login-form .help-block')[1]).text('Возможно, неправильный пароль!');
@@ -49,8 +49,9 @@ $JS = <<<JS
             }
           }
         },
-        error: function(){
-          console.log('[Форма авторизации] Что-то пошло не так...')
+        error: function(e){
+          console.log('[Форма авторизации] Что-то пошло не так...');
+          console.error(e);
         }
       });
     });
@@ -195,6 +196,10 @@ $this->registerJs(
                 'class' => 'navbar-nav navbar-right'
             ],
             'items'   => [
+                [
+                    'label' => 'Загрузить мемчик',
+                    'url'   => '/upload'
+                ],
                 [
                     'label' => Yii::$app->user->identity->login,
                     'url'   => '/profile'

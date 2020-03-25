@@ -1,9 +1,11 @@
 <?php
 namespace app\controllers;
 
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
 use app\models\db\Post;
+use app\models\forms\UploadForm;
 
 /**
  * Контроллер главной страницы (дашборда)
@@ -60,6 +62,25 @@ class DashboardController extends Controller
         $this->systemUser   = Yii::$app->user;
         $this->isUserGuest  = Yii::$app->user->isGuest;
         $this->systemUserId = Yii::$app->user->id;
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only'  => ['upload'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ],
+                'denyCallback' => function() {
+                    return $this->redirect('access-denied');
+                }
+            ]
+        ];
     }
 
     public function actionIndex()
@@ -160,5 +181,13 @@ class DashboardController extends Controller
         $favorite->img      = $this->request->post('img');
         $favorite->favorite = self::ADD_TO_FAVORITE;
         $favorite->save();
+  }
+
+  public function actionUpload()
+  {
+      $model = new UploadForm;
+      return $this->render('upload', [
+          'model' => $model
+      ]);
   }
 }
