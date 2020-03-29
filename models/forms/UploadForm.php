@@ -30,5 +30,7 @@ class UploadForm extends Model
         }
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
         $this->imageFile->saveAs($uploadsPath . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+
+        return !$this->imageFile->hasError;
     }
 }
