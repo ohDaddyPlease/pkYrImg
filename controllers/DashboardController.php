@@ -187,7 +187,12 @@ class DashboardController extends Controller
   {
       $model = new UploadForm;
       if(Yii::$app->request->isPost) {
-          $model->upload();
+          $isUploadSuccess = $model->upload();
+          if ($isUploadSuccess) {
+              Yii::$app->session->setFlash('success', 'Картинка успешно загружена!');
+          } else {
+              Yii::$app->session->setFlash('fail', 'Картинка не загружена!');
+          }
       }
       return $this->render('upload', [
           'model' => $model
