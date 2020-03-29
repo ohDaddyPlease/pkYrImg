@@ -14,8 +14,15 @@ class User extends ActiveRecord
     public function rules()
     {
         return [
-            ['login', 'unique']
+            ['login', 'unique'],
+            [['login', 'password'], 'required']
         ];
+    }
+
+    public function load($data, $formName = null)
+    {
+        parent::load($data, $formName);
+        $this->setAttribute('password', \Yii::$app->security->generatePasswordHash($this->getAttribute('password')));
     }
 
     public function fields()
@@ -23,7 +30,7 @@ class User extends ActiveRecord
         return [
             'id',
             'login',
-            'role'
+            'role',
         ];
     }
 
