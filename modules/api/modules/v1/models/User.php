@@ -22,7 +22,7 @@ class User extends ActiveRecord
     public function load($data, $formName = null)
     {
         parent::load($data, $formName);
-        $this->setAttribute('password', \Yii::$app->security->generatePasswordHash($this->getAttribute('password')));
+        $this->setAttribute('password', \Yii::$app->security->generatePasswordHash($this->password));
     }
 
     public function fields()
