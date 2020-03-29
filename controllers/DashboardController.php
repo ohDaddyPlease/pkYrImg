@@ -186,6 +186,9 @@ class DashboardController extends Controller
   public function actionUpload()
   {
       $model = new UploadForm;
+      if(Yii::$app->request->isPost) {
+          $model->upload();
+      }
       return $this->render('upload', [
           'model' => $model
       ]);
