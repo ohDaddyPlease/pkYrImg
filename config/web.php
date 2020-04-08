@@ -96,6 +96,10 @@ $config = [
                     'controller' => [
                         'v1/user'
                     ],
+                    'prefix' => 'api',
+//                    'extraPatterns' => [
+//                        'GET /' => ''
+//                    ]
                 ],
             ],
         ],
